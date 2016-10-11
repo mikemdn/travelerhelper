@@ -9,6 +9,10 @@ class Position:
         self.longitude = 0
         self.address = ""
 
+    def __init__(self, latitude, longitude):
+        self.latitude = latitude
+        self.longitude = longitude
+
     def get_address_from_coordinates(self, latitude, longitude):
         self.latitude = latitude
         self.longitude = longitude
@@ -26,3 +30,15 @@ class Position:
         self.longitude = result["results"][0]["geometry"]["location"]["lng"]
         print(self.latitude)
         print(self.longitude)
+
+    def get_coordinates(self):
+        return [self.latitude, self.longitude]
+
+    def get_latitude(self):
+        return self.latitude
+
+    def get_longitude(self):
+        return self.longitude
+
+    def get_address(self):
+        return self.address

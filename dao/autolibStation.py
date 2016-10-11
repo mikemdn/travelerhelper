@@ -3,6 +3,10 @@ from station import Station
 
 class AutolibStation(Station):
 
-    def __init__(self):
-        Station.__init__(self)
+    def __init__(self, latitude, longitude, capacity):
+        Station.__init__(self, latitude, longitude, capacity)
+
+    def object_to_string(self):
+        print "\nLatitude : " + str(self.position.latitude) + "\nLongitude : " + str(self.position.longitude) + "\nCapacity : " + str(self.capacity)
+
 
