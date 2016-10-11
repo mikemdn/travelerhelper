@@ -1,4 +1,6 @@
-########### Partie Front ##################
+########### Partie Front #################
+
+
 def ask_input(question):
     while True:
         data = input("{} (y/n) : ".format(question))
@@ -15,6 +17,16 @@ def display_summary(array):
     for item in array:
         if array[item] == True:
             print(item)
+
+def display_ways(array):
+    for item in array.items():
+        print(item[0])
+        print('-'*8)
+        for instruction in item[1]:
+            print(instruction)
+        print('=' * 20)
+
+display_ways({'Cycling':['Turn left', 'Turn Right', 'Come on !'], 'Autolib':['Take a car', 'Drive'], 'Subway':['Take the A line', 'Take the 5 line']})
 
 def main():
     search = False
@@ -46,7 +58,7 @@ def main():
         criteria["You have a credit card"] = credit_card
 
         print(criteria)
-        # print(display_summary(criteria))
+        print(display_summary(criteria))
         confirm = input("Do you confirm ? (y/n) :")
         if confirm == "y" or confirm == "Y":
             search = True
