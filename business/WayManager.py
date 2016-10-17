@@ -15,6 +15,7 @@ class WayManager:
         # Ajouter en paramètre de la fonction ses coordonnées gps
         self.departure_position = position.Position(48.862725, 2.287592, "")
         self.arrival_position = position.Position(0, 0, request["destination"])
+        self.ways = self.get_relevant_ways()
 
     def get_relevant_ways(self):
         #way is a list of Ways().
