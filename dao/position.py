@@ -4,15 +4,18 @@ import constants
 
 class Position:
 
-    def __init__(self, address):
-        self.address = address
-        self.latitude = Position.get_coordinates_from_address(self)[0]
-        self.longitude = Position.get_coordinates_from_address(self)[1]
-
-    def __init__(self, latitude, longitude):
-        self.latitude = latitude
-        self.longitude = longitude
-        self.address = Position.get_address_from_coordinates(self)
+    def __init__(self, latitude, longitude, address):
+        if latitude == 0 and longitude == 0:
+            self.address = address
+            self.latitude = Position.get_coordinates_from_address(self)[0]
+            self.longitude = Position.get_coordinates_from_address(self)[1]
+        elif address == "":
+            self.latitude = latitude
+            self.longitude = longitude
+            self.address = Position.get_address_from_coordinates(self)
+        else:
+            #lever une exception
+            print("Il y a un souci...")
 
     def get_address_from_coordinates(self):
         # Get address from Google Maps Geocoding API
