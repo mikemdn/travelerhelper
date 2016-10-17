@@ -11,6 +11,7 @@ class ElemWay:
         self.departure = departure
         self.arrival= arrival
 
+"""
 a=ElemWay()
 a.price=10
 a.distance=20
@@ -22,3 +23,4 @@ b.price=80
 b.distance=25
 b.steps=["gauche","gauche"]
 b.type='d'
+"""

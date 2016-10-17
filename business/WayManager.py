@@ -29,7 +29,8 @@ class WayManager:
             ways += WayManager.get_transit_way()
         else:
             ways += WayManager.get_transit_way()"""
-        ways.append(WayManager.get_autolib_way(self, self.departure_position, self.arrival_position))
+        ways.append(self.get_autolib_way())
+        print(str(ways[0].distance) + " " + str(ways[0].type)+ " " + str(ways[0].price))
 
         return ways
 
@@ -59,15 +60,16 @@ class WayManager:
         tway = Way()
         return(tway)"""
 
-    def get_autolib_way(self, departure_position, arrival_position):
-        departure_station = get_station(departure_position.get_latitude(), departure_position.get_longitude(), "c")
+    def get_autolib_way(self):
+        departure_station = get_station(self.departure_position.get_latitude(), self.departure_position.get_longitude(), "c")
         departure_station_position = station_converter_into_position(departure_station)
-
-        arrival_station = get_station(arrival_position.get_latitude(), arrival_position.get_longitude(), "c")
+        print('autolib_depart : {}, {}'.format(departure_station_position.get_latitude(), departure_station_position.get_longitude()))
+        arrival_station = get_station(self.arrival_position.get_latitude(), self.arrival_position.get_longitude(), "c")
         arrival_station_position = station_converter_into_position(arrival_station)
+        print('autolib_arrivee : {}, {}'.format(arrival_station_position.get_latitude(), arrival_station_position.get_longitude()))
         dway = Way()
-        """dway = dway + get_walking_elem(departure_position, departure_station_position)
+        dway = dway + get_walking_elem(self.departure_position, departure_station_position)
         dway = dway + get_driving_elem(departure_station_position, arrival_station_position)
-        dway = dway + get_driving_elem(arrival_station_position, arrival_position)"""
+        dway = dway + get_walking_elem(arrival_station_position, self.arrival_position)
         return(dway)
 

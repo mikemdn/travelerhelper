@@ -1,4 +1,5 @@
 from tkinter import *
+from business.WayManager import WayManager
 
 class Interface(Frame):
 
@@ -53,6 +54,13 @@ def display_ways(array):
         print('=' * 20)
 
 def main():
+    dico = {'destination' : 'Paris','charged' : True , 'walk' : True,
+         'bike' : False, 'rich' : False,
+         'driving licence' : True, 'navigo' : False,
+         'credit card' : True}
+    way_manager = WayManager(dico)
+
+    """
     L = [('charged', 'Are you charged ?'), ('walk', 'Do you want to walk ?'),
          ('bike', 'Do you want to use a bike ?'), ('rich', 'Is the price important for you ?'),
          ('driving licence', 'Do you have a driving licence ?'), ('navigo', 'Do you have a Navigo pass ?'),
@@ -74,6 +82,7 @@ def main():
     display_ways({'Velib':{'w1':(1, 15,['Turn left', 'Turn Right', 'Come on !']), 'c':(6, 24,['This', 'is', 'awesome']), 'w2':(0.1, 1, ['Like Usain Bolt'])},
                  'Autolib':{'w1':(2.3, 12, ['Take a car', 'Drive']), 'c':(6, 24,['That', 'is', 'easy']), 'w2':(0.1, 1, ['You', 'are', 'here'])},
                  'Subway':{'s':(8, 33,['Take the A line', 'Take the 5 line'])}})
+        """
 
 if __name__ == "__main__":
     main()

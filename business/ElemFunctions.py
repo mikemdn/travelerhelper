@@ -1,4 +1,4 @@
-from business import ElemWay
+from business.ElemWay import ElemWay
 from dao import position
 from dao import stationManager
 from dao.routeManager import RouteManager

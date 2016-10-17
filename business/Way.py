@@ -9,7 +9,7 @@ class Way:
     def __add__(self, other):
         waySum = Way()
         waySum.price = self.price + other.price
-        waySum.distance= self.distance + other.distance
+        waySum.distance = self.distance + float(other.distance)
         waySum.type = self.type
         waySum.elemWaysTable = self.elemWaysTable
 

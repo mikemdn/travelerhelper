@@ -1,7 +1,20 @@
 import requests
 import re
-from position import Position
+from dao.position import Position
 #from elemWay import ElemWay
+
+def convert_distance_into_meters(text):
+    coeff = 1
+    reg = r"([a-z]+)"
+    letters = re.finditer(reg, text, re.MULTILINE)
+    for matchNum, letter in enumerate(letters):
+        if letter.group() == 'km':
+            coeff = 1000
+        break
+    regex = r"([0-9]+.?[0-9]+)"
+    numbers = re.finditer(regex, text, re.MULTILINE)
+    for matchNum, number in enumerate(numbers):
+        return (float(number.group()) * coeff)
 
 def remove_tags(text):
       tags =re.compile('<.*?>')
@@ -37,8 +50,8 @@ class RouteManager():
         self.reply = requests.get(self.url)
         self.dict_reply = self.reply.json()
         self.steps = []
-        self.distance = self.distance = self.dict_reply['routes'][0]['legs'][0]['distance']['text']
-        self.duration = self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
+        self.distance = convert_distance_into_meters(self.dict_reply['routes'][0]['legs'][0]['distance']['text'])
+        self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
 
 
     def get_steps(self):
@@ -85,9 +98,16 @@ class RouteManager():
         print('')
         self.display_steps()
 
+if __name__ == "__main__":
+    start_location = Position(48.862725, 2.287592, "")
+    autolib_depart = Position(48.864136, 2.2883, "")
+    autolib_arrivee = Position(48.856579, 2.353831, "")
+    end_location = Position(0, 0, "Paris")
 
-start_location = Position(48.8028467, 2.4793836, "")
-end_location = Position(48.8566778, 2.3519559, "")
-route = RouteManager(start_location, end_location, 'w')
+    route1 = RouteManager(start_location, autolib_depart, 'w')
+    route2 = RouteManager(autolib_depart, autolib_arrivee, 'd')
+    route3 = RouteManager(autolib_arrivee, end_location, 'w')
 
-route.display_all()
+    route1.display_all()
+    route2.display_all()
+    route3.display_all()
