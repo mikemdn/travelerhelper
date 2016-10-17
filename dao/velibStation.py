@@ -1,4 +1,4 @@
-from station import Station
+from .station import Station
 
 
 class VelibStation(Station):
@@ -9,4 +9,4 @@ class VelibStation(Station):
         self.status = status
 
     def object_to_string(self):
-        print "\nlongitude : " + str(self.position.longitude) + "\nlatitude : " + str(self.position.latitude) + "\ncapacity : " + str(self.capacity) + "\navailability : " + str(self.availability) + "\nstatus : " + str(self.status)
+        print("\nlongitude : " + str(self.position.longitude) + "\nlatitude : " + str(self.position.latitude) + "\ncapacity : " + str(self.capacity) + "\navailability : " + str(self.availability) + "\nstatus : " + str(self.status))

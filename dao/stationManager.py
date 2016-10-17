@@ -1,5 +1,5 @@
-from velibStation import VelibStation
-from autolibStation import AutolibStation
+from .velibStation import VelibStation
+from .autolibStation import AutolibStation
 import requests
 
 

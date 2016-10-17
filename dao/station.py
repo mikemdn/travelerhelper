@@ -1,4 +1,4 @@
-from position import Position
+from .position import Position
 
 
 class Station:
