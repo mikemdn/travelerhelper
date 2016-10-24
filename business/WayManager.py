@@ -56,9 +56,11 @@ class WayManager:
         dway=Way+dway_elem
         return(dway)
 
+    """
+
     def get_transit_way(self):
         tway = Way()
-        return(tway)"""
+        return (tway)
 
     def get_autolib_way(self):
         departure_station = get_station(self.departure_position.get_latitude(), self.departure_position.get_longitude(), "c")

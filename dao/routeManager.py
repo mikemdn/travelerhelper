@@ -47,6 +47,7 @@ class RouteManager():
         self.destination_address = destination.address
         #self.mean_of_transport = elemway.type
         self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key=AIzaSyADxwwZWNKCrpZ2RXfO5U_a7rwCBW54-j0".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport)
+        print(self.url)
         self.reply = requests.get(self.url)
         self.dict_reply = self.reply.json()
         self.steps = []
@@ -61,17 +62,41 @@ class RouteManager():
                 step_distance = item['distance']['text']
                 step_duration = item['duration']['text']
                 step_instruction = remove_tags(item['html_instructions'])
-                self.steps.append({'distance' : step_distance, 'duration' : step_duration, 'instruction' : step_instruction})
+                step_mode = ""
+                step_line = ""
+                step_num_stations = ""
+                step_num_stations = ""
+                step_departure_station = ""
+                step_arrival_station = ""
+                step_direction = ""
+
+                if self.transport == "transit":
+                    step_mode = item["travel_mode"]
+                    if step_mode !="WALKING":
+                        step_line = item['transit_details']['line']['short_name']
+                        step_num_stations = item['transit_details']['num_stops']
+                        step_departure_station = item['transit_details']['departure_stop']['name']
+                        step_arrival_station = item['transit_details']['arrival_stop']['name']
+                        step_direction = item['transit_details']['headsign']
+
+                self.steps.append(
+                    {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction,
+                     'type' : step_mode, 'line' : step_line, 'stops' : step_num_stations,
+                     'departure_station' : step_departure_station, 'arrival_station' : step_arrival_station,
+                     'direction' : step_direction})
+
         return self.steps
 
     def display_steps(self):
         step_num = 1
         self.get_steps()
-        print("{:14}{:14}{:14}{}".format("Steps", "Duration", "Distance", "Instruction"))
-        print("-"*80)
+        print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:20}{:20}{:20}".format("Steps", "Duration", "Distance", "Instruction","Type",
+                                                                     "Line", "Stops", "Departure Station", "Arrival Station", "Direction"))
+        print("-"*200)
         for step in self.steps:
-            print("{:14}{:14}{:14}{}".format(
-            str(step_num), step['duration'], step['distance'], step['instruction']))
+            print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:20}{:20}{:20}".format(
+            str(step_num), step['duration'], step['distance'], step['instruction'], step['type'], step['line'],
+            str(step['stops']), step['departure_station'], step['arrival_station'], step['direction']))
             step_num += 1
 
     def get_distance(self):
@@ -99,15 +124,10 @@ class RouteManager():
         self.display_steps()
 
 if __name__ == "__main__":
-    start_location = Position(48.862725, 2.287592, "")
+    start_location = Position(48.837284, 2.472064, "")
     autolib_depart = Position(48.864136, 2.2883, "")
     autolib_arrivee = Position(48.856579, 2.353831, "")
-    end_location = Position(0, 0, "Paris")
+    end_location = Position(48.848009, 2.312288, "")
 
-    route1 = RouteManager(start_location, autolib_depart, 'w')
-    route2 = RouteManager(autolib_depart, autolib_arrivee, 'd')
-    route3 = RouteManager(autolib_arrivee, end_location, 'w')
-
+    route1 = RouteManager(start_location, end_location, 't')
     route1.display_all()
-    route2.display_all()
-    route3.display_all()
