@@ -6,12 +6,12 @@ from dao import position
 class WayManager:
     def __init__(self, request):
         self.meteo = 10
-        self.rich = True #request["rich"]
-        self.bike = True #request["bike"]
-        self.walk = True #request["walk"]
-        self.charged = True #request["charged"]
-        self.credit_card = True #request["credit card"]
-        self.driving_license= True #request["driving licence"]
+        self.rich = request["rich"]
+        self.bike = request["bike"]
+        self.walk = request["walk"]
+        self.charged = request["charged"]
+        self.credit_card = request["credit card"]
+        self.driving_license= request["driving licence"]
         # Ajouter en paramètre de la fonction ses coordonnées gps
         self.departure_position = position.Position(48.862725, 2.287592, "")
         self.arrival_position = position.Position(0, 0, request["destination"])
@@ -29,8 +29,9 @@ class WayManager:
             ways += WayManager.get_transit_way()
         else:
             ways += WayManager.get_transit_way()"""
-        ways.append(self.get_autolib_way())
-        print(str(ways[0].distance) + " " + str(ways[0].type)+ " " + str(ways[0].price))
+        if self.driving_license:
+            ways.append(self.get_autolib_way())
+            print(str(ways[0].distance) + " " + str(ways[0].type)+ " " + str(ways[0].price))
 
         return ways
 

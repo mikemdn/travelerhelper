@@ -1,6 +1,8 @@
 import requests
 import re
 from dao.position import Position
+import constants
+
 #from elemWay import ElemWay
 
 def convert_distance_into_meters(text):
@@ -46,23 +48,23 @@ class RouteManager():
         self.destination_longitude = destination.get_longitude()
         self.destination_address = destination.address
         #self.mean_of_transport = elemway.type
-        self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key=AIzaSyADxwwZWNKCrpZ2RXfO5U_a7rwCBW54-j0".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport)
+        self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key={}".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport, constants.google_maps_api_key)
         self.reply = requests.get(self.url)
         self.dict_reply = self.reply.json()
-        self.steps = []
+        self.steps = self.get_steps()
         self.distance = convert_distance_into_meters(self.dict_reply['routes'][0]['legs'][0]['distance']['text'])
         self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
 
 
     def get_steps(self):
         steps = self.dict_reply['routes'][0]['legs'][0]['steps']
-        if self.steps == []:
-            for item in steps:
-                step_distance = item['distance']['text']
-                step_duration = item['duration']['text']
-                step_instruction = remove_tags(item['html_instructions'])
-                self.steps.append({'distance' : step_distance, 'duration' : step_duration, 'instruction' : step_instruction})
-        return self.steps
+        steps_info = []
+        for item in steps:
+            step_distance = item['distance']['text']
+            step_duration = item['duration']['text']
+            step_instruction = remove_tags(item['html_instructions'])
+            steps_info.append({'distance' : step_distance, 'duration' : step_duration, 'instruction' : step_instruction})
+        return steps_info
 
     def display_steps(self):
         step_num = 1
