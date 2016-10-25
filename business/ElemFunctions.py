@@ -52,12 +52,12 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
         if step['type'] == 'WALKING':
             e.type = 'w'
-            e.steps = [step['instruction']]
+            e.steps = [{ 'instruction' : step['instruction']}]
 
         if step['type'] == 'TRANSIT':
             e.type = 't'
-            e.steps=["Take Line {}, direction {} to {} from {} at {}".format(step['line'], step['direction'], step['arrival_station'],
-                                                                             step['departure_station'], step['departure_time'])]
+            e.steps=[{'instruction' : "Take Line {}, direction {} to {} from {} at {}".format(step['line'], step['direction'], step['arrival_station'],
+                                                                             step['departure_station'], step['departure_time'])}]
         transit_way = transit_way + e
 
     transit_way.distance = route_manager.distance
