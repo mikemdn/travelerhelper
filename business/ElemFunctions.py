@@ -40,7 +40,7 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
 
 def get_station(latitude, longitude, type):
-    distance = 200
+    distance = 10000
     if type == "b":
         is_velib = True
     elif type == "c":
