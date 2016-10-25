@@ -59,7 +59,7 @@ class WayManager:
     """
 
     def get_transit_way(self):
-        tway = Way()
+        tway = get_transit_elem(self.departure_position, self.arrival_position)
         return (tway)
 
     def get_autolib_way(self):

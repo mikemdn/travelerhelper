@@ -65,7 +65,19 @@ class RouteManager():
 
                 if self.transport == "transit":
                     step_mode = item["travel_mode"]
-                    if step_mode !="WALKING":
+                    step_departure_location_latitude = ""
+                    step_departure_location_longitude = ""
+                    step_arrival_location_latitude = ""
+                    step_arrival_location_longitude = ""
+                    step_line = ""
+                    step_num_stations = ""
+                    step_departure_station = ""
+                    step_arrival_station = ""
+                    step_direction = ""
+                    step_arrival_time = ""
+                    step_departure_time = ""
+
+                    if step_mode =="TRANSIT":
                         step_line = item['transit_details']['line']['short_name']
                         step_num_stations = item['transit_details']['num_stops']
                         step_departure_station = item['transit_details']['departure_stop']['name']
@@ -77,18 +89,16 @@ class RouteManager():
                         step_departure_location_longitude = item['transit_details']['departure_stop']['location']['lng']
                         step_arrival_location_latitude = item['transit_details']['arrival_stop']['location']['lat']
                         step_arrival_location_longitude = item['transit_details']['arrival_stop']['location']['lng']
-                    else :
-                        step_line = ""
-                        step_num_stations = ""
-                        step_departure_station = ""
-                        step_arrival_station = ""
-                        step_direction = ""
-                        step_arrival_time = ""
-                        step_departure_time = ""
-                        step_departure_location_latitude = ""
-                        step_departure_location_longitude = ""
-                        step_arrival_location_latitude = ""
-                        step_arrival_location_longitude = ""
+
+                    if step_mode == "WALKING":
+                        step_departure_location_latitude = item['start_location']['lat']
+                        step_departure_location_longitude = item['start_location']['lng']
+                        step_arrival_location_latitude = item['end_location']['lat']
+                        step_arrival_location_longitude = item['end_location']['lng']
+
+
+
+
 
                     self.steps.append(
                         {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction,

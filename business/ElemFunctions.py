@@ -1,7 +1,10 @@
 from business.ElemWay import ElemWay
+from business.Way import Way
 from dao import position
 from dao import stationManager
 from dao.routeManager import RouteManager
+from dao.routeManager import convert_distance_into_meters
+from dao.position import  Position
 
 #### METHODES ELEMENTAIRES
 
@@ -34,9 +37,35 @@ def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return(elemway)
 
-"""
+
 def get_transit_elem(elem_departure_position, elem_arrival_position):
-    return (ElemWay())"""
+    transit_way = Way()
+    route_manager = RouteManager(elem_departure_position, elem_arrival_position, 't')
+    route_manager.steps = route_manager.get_steps()
+
+    for step in route_manager.steps:
+        e = ElemWay(Position(step['departure_location_lat'], step['departure_location_lng'], ""),
+                    Position(step['arrival_location_lat'], step['arrival_location_lng'], ""))
+
+        e.distance = convert_distance_into_meters(step['distance'])
+        e.duration = step['duration']
+
+        if step['type'] == 'WALKING':
+            e.type = 'w'
+            e.steps = [step['instruction']]
+
+        if step['type'] == 'TRANSIT':
+            e.type = 't'
+            e.steps=["Take Line {}, direction {} to {} from {} at {}".format(step['line'], step['direction'], step['arrival_station'],
+                                                                             step['departure_station'], step['departure_time'])]
+        transit_way = transit_way + e
+
+    transit_way.distance = route_manager.distance
+    transit_way.price = 2.25
+    transit_way.duration = route_manager.duration
+
+    return (transit_way)
+
 
 
 def get_station(latitude, longitude, type):
@@ -56,3 +85,8 @@ def get_station(latitude, longitude, type):
 def station_converter_into_position(station):
     return position.Position(station.get_position().get_latitude(), station.get_position().get_longitude(), "")
 
+
+start_location = Position(48.837284, 2.472064, "")
+end_location = Position(48.848009, 2.312288, "")
+
+get_transit_elem(start_location, end_location)
