@@ -1,13 +1,21 @@
 ################ Partie API ####################
 from business.WayManager import WayManager
 import constants
+import requests
 
 class ApiRoute:
     def __init__(self, array):
         self.array = array
 
+    def get_geolocation(self):
+        r = requests.post("https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key).json()
+        print(r)
+        self.array['departure'] = (r['location'])
+        print(self.array)
+
     def get_route_api_front(self):
         """returns a WayManager object with information from the interface"""
+        self.get_geolocation()
         return WayManager(self.array)
 
     def data_structure(self):
@@ -18,9 +26,15 @@ class ApiRoute:
             if "t" in way.type:
                 way_type = "Transit"
             elif "d" in way.type:
-                way_type = "Autolib"
+                if len(way.type) == 1:
+                    way_type = "Driving"
+                else:
+                    way_type = "Autolib"
             elif "c" in way.type:
-                way_type = "Velib"
+                if len(way.type) == 1:
+                    way_type = "Bicycling"
+                else:
+                    way_type = "Velib"
             else:
                 way_type = "Walking"
 
@@ -34,3 +48,7 @@ class ApiRoute:
     def get_geolocation(self):
         "https://www.googleapis.com/geolocation/v1/geolocate?key={}".format(constants.google_maps_api_key)
 """
+
+if __name__ == "__main__":
+    apiroute=ApiRoute({})
+    apiroute.get_geolocation()

@@ -14,7 +14,7 @@ def get_walking_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return(elemway)
 
-"""
+
 def get_cycling_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'c')
     route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
@@ -23,7 +23,7 @@ def get_cycling_elem(elem_departure_position, elem_arrival_position):
     elemway.distance = route_manager.distance
     elemway.price = 0
     return(elemway)
-"""
+
 
 def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'd')
@@ -34,13 +34,21 @@ def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return(elemway)
 
-"""
+def get_uber_elem(elem_departure_position, elem_arrival_position):
+    elemway = ElemWay(elem_departure_position, elem_arrival_position, 'd')
+    route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
+    elemway.duration = route_manager.duration
+    elemway.distance = route_manager.distance
+    elemway.price = 0
+    return(elemway)
+
 def get_transit_elem(elem_departure_position, elem_arrival_position):
-    return (ElemWay())"""
+    return (ElemWay())
 
 
 def get_station(latitude, longitude, type):
-    distance = 200
+    distance = 10000
+    is_velib = True
     if type == "b":
         is_velib = True
     elif type == "c":
@@ -55,4 +63,3 @@ def get_station(latitude, longitude, type):
 
 def station_converter_into_position(station):
     return position.Position(station.get_position().get_latitude(), station.get_position().get_longitude(), "")
-
