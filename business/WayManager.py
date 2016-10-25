@@ -38,6 +38,7 @@ class WayManager:
         if not self.charged and self.bike:
             ways.append(self.get_velib_way())
             ways.append(self.get_cycling_way())
+        ways.append(self.get_transit_way())
         for way in ways:
             print(str(way.distance) + " " + str(way.type)+ " " + str(way.price))
         return ways

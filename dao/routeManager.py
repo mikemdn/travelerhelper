@@ -61,64 +61,63 @@ class RouteManager():
 
     def get_steps(self):
         steps = self.dict_reply['routes'][0]['legs'][0]['steps']
+        steps_info = []
+        for item in steps:
+            step_distance = item['distance']['text']
+            step_duration = item['duration']['text']
+            step_instruction = remove_tags(item['html_instructions'])
 
-        if self.steps == []:
-            for item in steps:
-                step_distance = item['distance']['text']
-                step_duration = item['duration']['text']
-                step_instruction = remove_tags(item['html_instructions'])
+            if self.transport == "transit":
+                step_mode = item["travel_mode"]
+                step_departure_location_latitude = ""
+                step_departure_location_longitude = ""
+                step_arrival_location_latitude = ""
+                step_arrival_location_longitude = ""
+                step_line = ""
+                step_num_stations = ""
+                step_departure_station = ""
+                step_arrival_station = ""
+                step_direction = ""
+                step_arrival_time = ""
+                step_departure_time = ""
 
-                if self.transport == "transit":
-                    step_mode = item["travel_mode"]
-                    step_departure_location_latitude = ""
-                    step_departure_location_longitude = ""
-                    step_arrival_location_latitude = ""
-                    step_arrival_location_longitude = ""
-                    step_line = ""
-                    step_num_stations = ""
-                    step_departure_station = ""
-                    step_arrival_station = ""
-                    step_direction = ""
-                    step_arrival_time = ""
-                    step_departure_time = ""
+                if step_mode =="TRANSIT":
+                    step_line = item['transit_details']['line']['short_name']
+                    step_num_stations = item['transit_details']['num_stops']
+                    step_departure_station = item['transit_details']['departure_stop']['name']
+                    step_arrival_station = item['transit_details']['arrival_stop']['name']
+                    step_direction = item['transit_details']['headsign']
+                    step_arrival_time = item['transit_details']['arrival_time']['text']
+                    step_departure_time = item['transit_details']['departure_time']['text']
+                    step_departure_location_latitude = item['transit_details']['departure_stop']['location']['lat']
+                    step_departure_location_longitude = item['transit_details']['departure_stop']['location']['lng']
+                    step_arrival_location_latitude = item['transit_details']['arrival_stop']['location']['lat']
+                    step_arrival_location_longitude = item['transit_details']['arrival_stop']['location']['lng']
 
-                    if step_mode =="TRANSIT":
-                        step_line = item['transit_details']['line']['short_name']
-                        step_num_stations = item['transit_details']['num_stops']
-                        step_departure_station = item['transit_details']['departure_stop']['name']
-                        step_arrival_station = item['transit_details']['arrival_stop']['name']
-                        step_direction = item['transit_details']['headsign']
-                        step_arrival_time = item['transit_details']['arrival_time']['text']
-                        step_departure_time = item['transit_details']['departure_time']['text']
-                        step_departure_location_latitude = item['transit_details']['departure_stop']['location']['lat']
-                        step_departure_location_longitude = item['transit_details']['departure_stop']['location']['lng']
-                        step_arrival_location_latitude = item['transit_details']['arrival_stop']['location']['lat']
-                        step_arrival_location_longitude = item['transit_details']['arrival_stop']['location']['lng']
-
-                    if step_mode == "WALKING":
-                        step_departure_location_latitude = item['start_location']['lat']
-                        step_departure_location_longitude = item['start_location']['lng']
-                        step_arrival_location_latitude = item['end_location']['lat']
-                        step_arrival_location_longitude = item['end_location']['lng']
-
+                if step_mode == "WALKING":
+                    step_departure_location_latitude = item['start_location']['lat']
+                    step_departure_location_longitude = item['start_location']['lng']
+                    step_arrival_location_latitude = item['end_location']['lat']
+                    step_arrival_location_longitude = item['end_location']['lng']
 
 
 
 
-                    self.steps.append(
-                        {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction,
-                         'type' : step_mode, 'line' : step_line, 'stops' : step_num_stations,
-                         'departure_station' : step_departure_station, 'arrival_station' : step_arrival_station,
-                         'direction' : step_direction, 'arrival_time' : step_arrival_time, 'departure_time' : step_departure_time,
-                         'departure_location_lat' : step_departure_location_latitude, 'departure_location_lng' : step_departure_location_longitude,
-                         'arrival_location_lat' : step_arrival_location_latitude, 'arrival_location_lng' : step_arrival_location_longitude})
+
+                steps_info.append(
+                    {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction,
+                     'type' : step_mode, 'line' : step_line, 'stops' : step_num_stations,
+                     'departure_station' : step_departure_station, 'arrival_station' : step_arrival_station,
+                     'direction' : step_direction, 'arrival_time' : step_arrival_time, 'departure_time' : step_departure_time,
+                     'departure_location_lat' : step_departure_location_latitude, 'departure_location_lng' : step_departure_location_longitude,
+                     'arrival_location_lat' : step_arrival_location_latitude, 'arrival_location_lng' : step_arrival_location_longitude})
 
 
-                else :
-                    self.steps.append(
-                        {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction})
+            else :
+                steps_info.append(
+                    {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction})
 
-        return self.steps
+        return steps_info
 
 
     def display_steps(self):
