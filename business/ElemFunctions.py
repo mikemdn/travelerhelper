@@ -4,9 +4,10 @@ from dao import position
 from dao import stationManager
 from dao.routeManager import RouteManager
 from dao.routeManager import convert_distance_into_meters
-from dao.position import  Position
+from dao.position import Position
 
-#### METHODES ELEMENTAIRES
+""" METHODES ELEMENTAIRES """
+
 
 def get_walking_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'w')
@@ -15,7 +16,7 @@ def get_walking_elem(elem_departure_position, elem_arrival_position):
     elemway.duration = route_manager.duration
     elemway.distance = route_manager.distance
     elemway.price = 0
-    return(elemway)
+    return elemway
 
 
 def get_cycling_elem(elem_departure_position, elem_arrival_position):
@@ -25,7 +26,7 @@ def get_cycling_elem(elem_departure_position, elem_arrival_position):
     elemway.duration = route_manager.duration
     elemway.distance = route_manager.distance
     elemway.price = 0
-    return(elemway)
+    return elemway
 
 
 def get_driving_elem(elem_departure_position, elem_arrival_position):
@@ -35,7 +36,7 @@ def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway.duration = route_manager.duration
     elemway.distance = route_manager.distance
     elemway.price = 0
-    return(elemway)
+    return elemway
 
 
 def get_transit_elem(elem_departure_position, elem_arrival_position):
@@ -52,19 +53,20 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
         if step['type'] == 'WALKING':
             e.type = 'w'
-            e.steps = [{ 'instruction' : step['instruction']}]
+            e.steps = [{'instruction': step['instruction']}]
 
         if step['type'] == 'TRANSIT':
             e.type = 't'
-            e.steps=[{'instruction' : "Take Line {}, direction {} to {} from {} at {}".format(step['line'], step['direction'], step['arrival_station'],
-                                                                             step['departure_station'], step['departure_time'])}]
+            e.steps = [{'instruction': "Take Line {}, direction {} to {} from {} at {}".format(step['line'],
+                        step['direction'], step['arrival_station'], step['departure_station'], step['departure_time'])}]
         transit_way = transit_way + e
 
     transit_way.distance = route_manager.distance
     transit_way.price = 2.25
     transit_way.duration = route_manager.duration
 
-    return (transit_way)
+    return transit_way
+
 
 def get_uber_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'd')
@@ -72,16 +74,15 @@ def get_uber_elem(elem_departure_position, elem_arrival_position):
     elemway.duration = route_manager.duration
     elemway.distance = route_manager.distance
     elemway.price = 0
-    return(elemway)
+    return elemway
 
 
-
-def get_station(latitude, longitude, type):
+def get_station(latitude, longitude, transport_type):
     distance = 10000
     is_velib = True
-    if type == "b":
+    if transport_type == "b":
         is_velib = True
-    elif type == "c":
+    elif transport_type == "c":
         is_velib = False
     is_autolib = not is_velib
     result = stationManager.StationManager().find_stations_in_radius(latitude, longitude, is_velib, is_autolib, distance)
@@ -93,6 +94,3 @@ def get_station(latitude, longitude, type):
 
 def station_converter_into_position(station):
     return position.Position(station.get_position().get_latitude(), station.get_position().get_longitude(), "")
-
-
-

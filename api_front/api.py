@@ -1,5 +1,6 @@
 ################ Partie API ####################
 from business.WayManager import WayManager
+from business.choiceManager import ChoiceManager
 import constants
 import requests
 
@@ -16,7 +17,8 @@ class ApiRoute:
     def get_route_api_front(self):
         """returns a WayManager object with information from the interface"""
         self.get_geolocation()
-        return WayManager(self.array)
+        available_transport_types = ChoiceManager(2).get_available_transport_list()  # ajouter le main criteria
+        return WayManager(self.array, available_transport_types)
 
     def data_structure(self):
         """Returns a dictionnary with all the ways and their Elem ways, with information about distance, duration and steps"""
