@@ -9,6 +9,7 @@ class ApiRoute:
         self.array = array
 
     def get_geolocation(self):
+        """Returns the coordinates of the user's current location"""
         r = requests.post("https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key).json()
         print(r)
         self.array['departure'] = (r['location'])
@@ -17,7 +18,7 @@ class ApiRoute:
     def get_route_api_front(self):
         """returns a WayManager object with information from the interface"""
         self.get_geolocation()
-        available_transport_types = ChoiceManager(2).get_available_transport_list()  # ajouter le main criteria
+        available_transport_types = ChoiceManager(3).get_available_transport_list()  # ajouter le main criteria
         return WayManager(self.array, available_transport_types)
 
     def data_structure(self):
@@ -37,19 +38,16 @@ class ApiRoute:
                     way_type = "Bicycling"
                 else:
                     way_type = "Velib"
+            elif "u" in way.type:
+                way_type = way.display_name
             else:
                 way_type = "Walking"
 
             elemway_tuple = []
             for elemWay in way.elemWaysTable:
-                elemway_tuple.append([elemWay.type, (elemWay.distance, elemWay.duration, elemWay.price, elemWay.steps)])
-            way_dict[way_type] = elemway_tuple
+                elemway_tuple.append([elemWay.type, (elemWay.distance, elemWay.duration, elemWay.steps)])
+            way_dict[way_type] = (way.duration, way.distance, way.price, elemway_tuple)
         return way_dict
-
-"""
-    def get_geolocation(self):
-        "https://www.googleapis.com/geolocation/v1/geolocate?key={}".format(constants.google_maps_api_key)
-"""
 
 if __name__ == "__main__":
     apiroute=ApiRoute({})
