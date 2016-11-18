@@ -8,7 +8,6 @@ class Interface(Frame):
     def __init__(self, fenetre, question, **kwargs):
         Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
         self.pack(fill=BOTH)
-
         self.dico = {}
         self.nb_item = 0
         self.criteria_name = question[0]
@@ -45,7 +44,7 @@ def display_ways(array):
 
 def main():
 
-    dico = {'destination' : 'Paris','charged' : False , 'walk' : True,
+    dico = {'destination' : 'Antony','charged' : False , 'walk' : True,
          'bike' : True, 'rich' : False, 'car' : True,
          'driving licence' : True, 'navigo' : False,
          'credit card' : True}

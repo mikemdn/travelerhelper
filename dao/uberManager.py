@@ -2,7 +2,9 @@ import requests
 import constants
 from dao.uber import *
 
-
+def seconds_to_minutes(string):
+    seconds = int(string)
+    return str(seconds // 60)
 class UberManager:
     """Class that allows us to get information of a ride from the Uber API"""
     def __init__(self, start_latitude, start_longitude, end_latitude, end_longitude, dway):
@@ -28,13 +30,12 @@ class UberManager:
             uber.high_price_estimate = option["high_estimate"]
             uber.price = remove_symbol(option["estimate"])
             uber.surge_multiplier = option["surge_multiplier"]
-            uber.wait_time = option["duration"]
             #Gives it information about distance and duration thanks to Google Maps
             uber.duration = self.duration
             uber.distance = self.distance
             #Gives it a default step
             elemway = self.elemwayTable[0]
-            elemway.steps = [{'distance': '', 'duration':'','instruction':'Connect to the Uber App !'}]
+            elemway.steps = [{'distance': '', 'duration':'','instruction':'Connect to the Uber App ! An Uber is {} minutes away'.format(seconds_to_minutes(option["duration"]))}]
             uber.elemWaysTable = [elemway]
             uber_list.append(uber)
         return uber_list

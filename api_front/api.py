@@ -10,10 +10,10 @@ class ApiRoute:
 
     def get_geolocation(self):
         """Returns the coordinates of the user's current location"""
-        r = requests.post("https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key).json()
-        print(r)
+        url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key
+        r = requests.post(url).json()
         self.array['departure'] = (r['location'])
-        print(self.array)
+        print("r =".format(self.array))
 
     def get_route_api_front(self):
         """returns a WayManager object with information from the interface"""
