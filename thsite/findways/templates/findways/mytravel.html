@@ -1,0 +1,9 @@
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Ton profil" />
+</form>
+
+<br/>
+<p>coucou</p>
+<a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>

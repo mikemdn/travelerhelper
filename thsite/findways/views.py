@@ -1,31 +1,14 @@
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth import authenticate, login
-from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 
-from django.views import generic
+from .models import Profile
 
-# Create your views here.
-
-# def index(request):
-#     text = """<!DOCTYPE html>
-# <html lang="en">
-# <head>
-#     <meta charset="UTF-8">
-#     <title>Index</title>
-# </head>
-# <body>
-# <h1>Bienvenue sur traveler helper</h1>
-# <button>Se connecter</button>
-# <button>S'inscrire</button>
-#
-# </body>
-# </html>"""
-#     return HttpResponse(text)
 
 def index(request):
     return render(request,'findways/index.html')
@@ -61,10 +44,28 @@ def signin(request):
                 login(request, user)  # nous connectons l'utilisateur
             else: # sinon une erreur sera affichée
                 error = True
+
     else:
         form = ConnexionForm()
 
     return render(request, 'findways/signin.html', locals())
+
+@login_required(login_url='http://localhost:8000/findways/signin')
+def mytravel(request):
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+    return render(request, 'findways/mytravel.html')
+
+def log_out(request):
+    logout(request)
+    return redirect("http://localhost:8000/findways/")
+
+
+###################################################################################################################
+# FORMS
 
 class ConnexionForm(forms.Form):
     username = forms.CharField(label="Nom d'utilisateur", max_length=30)
@@ -75,5 +76,11 @@ class RegisterForm(forms.Form):
     mail = forms.CharField(label="E-mail address", max_length=50)
     password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
 
-def mytravel(request):
-    return HttpResponse("coucou")
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['licence', 'card', 'navigo', 'velibPass','car', 'bike']
+
+
+
