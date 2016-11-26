@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-</head>
-<body>
-<h1>Inscris-toi, on est bien !</h1>
-</body>
-</html>
+<h1>S'inscrire</h1>
+
+{% if error %}
+<p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+{% elif userAlreadyExists %}
+<p><strong>Mmmmh Utilisateur déjà pris...</strong></p>
+{% else %}
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="S'inscrire" />
+</form>
+{% endif %}

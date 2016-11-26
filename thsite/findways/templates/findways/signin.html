@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign In</title>
-</head>
-<body>
-<h1> Connecte toi ici !</h1>
-</body>
-</html>
+<h1>Se connecter</h1>
+
+{% if error %}
+<p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+{% endif %}
+
+{% if user.is_authenticated %}
+Vous êtes connecté, {{ user.username }} !
+<a href="http://localhost:8000/findways/mytravel/">Construire mon trajet<input type="button" value="Se Connecter" /></a>
+{% else %}
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Se connecter" />
+</form>
+{% endif %}
