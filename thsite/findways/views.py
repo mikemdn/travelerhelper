@@ -22,3 +22,9 @@ from django.views import generic
 
 def index(request):
     return render(request,'findways/index.html')
+
+def signin(request):
+    return render(request,'findways/signin.html')
+
+def signup(request):
+    return render(request,'findways/signup.html')
