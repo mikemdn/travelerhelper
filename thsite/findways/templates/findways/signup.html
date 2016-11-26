@@ -1,0 +1,14 @@
+<h1>S'inscrire</h1>
+
+{% if error %}
+<p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+{% elif userAlreadyExists %}
+<p><strong>Mmmmh Utilisateur déjà pris...</strong></p>
+{% else %}
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="S'inscrire" />
+</form>
+{% endif %}
+<a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
