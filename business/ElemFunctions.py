@@ -4,11 +4,13 @@ from dao import position
 from dao import stationManager
 from dao.routeManager import RouteManager
 from dao.routeManager import convert_distance_into_meters
+from dao.routeManager import convert_duration_into_minutes
 from dao.position import Position
+from dao.uberManager import UberManager
 
-""" METHODES ELEMENTAIRES """
+""" Methods to get information about elementary ways """
 
-
+#Elementary walking ways
 def get_walking_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'w')
     route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
@@ -18,7 +20,7 @@ def get_walking_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return elemway
 
-
+#Elementary cycling ways
 def get_cycling_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'c')
     route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
@@ -28,7 +30,7 @@ def get_cycling_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return elemway
 
-
+#Elementary driving ways
 def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'd')
     route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
@@ -38,7 +40,7 @@ def get_driving_elem(elem_departure_position, elem_arrival_position):
     elemway.price = 0
     return elemway
 
-
+#Elementary transit ways
 def get_transit_elem(elem_departure_position, elem_arrival_position):
     transit_way = Way()
     route_manager = RouteManager(elem_departure_position, elem_arrival_position, 't')
@@ -49,7 +51,7 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
                     Position(step['arrival_location_lat'], step['arrival_location_lng'], ""))
 
         e.distance = convert_distance_into_meters(step['distance'])
-        e.duration = step['duration']
+        e.duration = convert_duration_into_minutes(step['duration'])
 
         if step['type'] == 'WALKING':
             e.type = 'w'
@@ -67,17 +69,14 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
     return transit_way
 
-
-def get_uber_elem(elem_departure_position, elem_arrival_position):
-    elemway = ElemWay(elem_departure_position, elem_arrival_position, 'd')
-    route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
-    elemway.duration = route_manager.duration
-    elemway.distance = route_manager.distance
-    elemway.price = 0
-    return elemway
+#Elementary Uber ways
+def get_uber_elem(departure_position, arrival_position, dway):
+    uber_list = UberManager(departure_position.latitude,departure_position.longitude, arrival_position.latitude, arrival_position.longitude, dway).get_uber()
+    return uber_list
 
 
 def get_station(latitude, longitude, transport_type):
+    """Returns the nearest station from a certain point"""
     distance = 10000
     is_velib = True
     if transport_type == "b":

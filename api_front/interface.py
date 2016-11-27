@@ -3,13 +3,11 @@ from api_front.api import ApiRoute
 
 class Interface(Frame):
 
-    """Notre fenêtre principale.
-    Tous les widgets sont stockés comme attributs de cette fenêtre."""
+    """User Interface Window"""
 
     def __init__(self, fenetre, question, **kwargs):
         Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
         self.pack(fill=BOTH)
-
         self.dico = {}
         self.nb_item = 0
         self.criteria_name = question[0]
@@ -25,17 +23,7 @@ class Interface(Frame):
         self.bouton_non = Button(self, text="No", command=self.non)
         self.bouton_non.pack(side="right")
 
-    def following_question(self):
-        if self.nb_item < len(self.questions) - 1:
-            self.nb_item += 1
-            self.message["text"] = "{}".format(self.questions[self.input_name])
-        else:
-            self.quit
-
     def oui(self):
-        """.
-
-        """
         self.dico[self.criteria_name] = True
         self.quit()
 
@@ -44,18 +32,19 @@ class Interface(Frame):
         self.quit()
 
 def display_ways(array):
+    """This is how the information about the different possible ways will be displayed to the user"""
     for way in array.items():
-        print(way[0])
+        print(way[0] + " - {}mins, {}m, {} €".format(str(way[1][0]), str(way[1][1]), str(way[1][2])))
         print('-'*8)
-        for elemWay in way[1]:
-            print('{} : {}m, {}, {} euros'.format(elemWay[0], elemWay[1][0], elemWay[1][1], elemWay[1][2]))
-            for elem_step in elemWay[1][3]:
+        for elemWay in way[1][-1]:
+            print('{} : {}m, {}mins'.format(elemWay[0], elemWay[1][0], elemWay[1][1]))
+            for elem_step in elemWay[1][-1]:
                   print(' ' * 8 + elem_step['instruction'])
         print('=' * 20)
 
 def main():
 
-    dico = {'destination' : 'Paris','charged' : False , 'walk' : True,
+    dico = {'destination' : 'Antony','charged' : False , 'walk' : True,
          'bike' : True, 'rich' : False, 'car' : True,
          'driving licence' : True, 'navigo' : False,
          'credit card' : True}

@@ -25,7 +25,6 @@ class WayManager:
     def get_relevant_ways(self, available_transport_types):
         #way is a list of Ways().
         ways = []
-        ### Ajouter le type driving
         for transport_type in available_transport_types:
             if transport_type == "rail":
                 ways.append(WayManager.get_transit_way(self)) #ajouter le paramètre ferré
@@ -38,7 +37,9 @@ class WayManager:
             elif transport_type == "walk":
                 ways.append(WayManager.get_walking_way(self))
             elif transport_type == "uber":
-                print("La fonctionnalité Uber n'est pas encore implémentée... \n")
+                for uber_type in WayManager.get_uber_way(self):
+                    uber_type.uber_to_string()
+                    ways.append(uber_type)
             else:
                 print("Le type de transport ne fait pas partie des possibilités.")
         for way in ways:
@@ -48,8 +49,8 @@ class WayManager:
     def get_ways(self):
         return self.ways
 
-    #### METHODES GLOBALES
 
+    ### The following functions return a Way object that contains all the corresponding elementary ways ###
     def get_walking_way(self):
         wway = Way()
         wway = wway + get_walking_elem(self.departure_position, self.arrival_position)
@@ -102,6 +103,6 @@ class WayManager:
         return dway
 
     def get_uber_way(self):
-        uway = Way()
-        uway = uway + get_uber_elem(self.departure_position, self.arrival_position)
-        return uway
+        dway = self.get_driving_way()
+        uway_list = get_uber_elem(self.departure_position, self.arrival_position, dway)
+        return uway_list

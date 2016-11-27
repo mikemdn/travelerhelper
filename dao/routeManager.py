@@ -7,16 +7,25 @@ import constants
 
 def convert_distance_into_meters(text):
     coeff = 1
-    reg = r"([a-z]+)"
+    reg = r"(([0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
-        if letter.group() == 'km':
+        if letter.groups()[2] == 'km':
             coeff = 1000
-        break
-    regex = r"([0-9]+.?[0-9]+)"
-    numbers = re.finditer(regex, text, re.MULTILINE)
-    for matchNum, number in enumerate(numbers):
-        return (float(number.group()) * coeff)
+        return (float(letter.groups()[1]) * coeff)
+
+def convert_duration_into_minutes(text):
+    reg = r"(([0-9]+)\s([a-z]+))"
+    groups = re.finditer(reg, text, re.MULTILINE)
+    min = 0
+    for matchNum, group in enumerate(groups):
+        if group.groups()[2] == 'd':
+            min += int(group.groups()[1]) * 60 * 24
+        elif group.groups()[2] == 'h':
+            min += int(group.groups()[1]) * 60
+        elif group.groups()[2] == 'mins':
+            min += int(group.groups()[1])
+    return min
 
 def remove_tags(text):
       tags =re.compile('<.*?>')
@@ -56,7 +65,7 @@ class RouteManager():
         self.dict_reply = self.reply.json()
         self.steps = self.get_steps()
         self.distance = convert_distance_into_meters(self.dict_reply['routes'][0]['legs'][0]['distance']['text'])
-        self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
+        self.duration = convert_duration_into_minutes(self.dict_reply['routes'][0]['legs'][0]['duration']['text'])
 
 
     def get_steps(self):
@@ -179,6 +188,8 @@ class RouteManager():
         self.display_steps()
 
 if __name__ == "__main__":
+    print(convert_duration_into_minutes('1 d 2 h 36 mins'))
+    """
     start_location = Position(48.837284, 2.472064, "")
     autolib_depart = Position(48.864136, 2.2883, "")
     autolib_arrivee = Position(48.856579, 2.353831, "")
@@ -186,3 +197,4 @@ if __name__ == "__main__":
 
     route1 = RouteManager(start_location, end_location, 't')
     route1.display_all()
+        """
