@@ -37,7 +37,6 @@ class StationManager:
             capacity = station["fields"]["prises_autolib"]
             station = AutolibStation(latitude, longitude, capacity)
             output_list.append(station)
-            station.object_to_string()
         return output_list
 
     def find_stations_in_radius(self, latitude, longitude, is_velib, is_autolib, distance):

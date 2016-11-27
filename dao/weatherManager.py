@@ -11,8 +11,6 @@ class WeatherManager:
         self.forecast = "forecast"
 
     def get_weather(self, type, time=0):
-        #url = "http://api.openweathermap.org/data/2.5/" + type + "?lat=" + str(position.get_latitude()) + "&lon=" + str(
-        #    position.get_longitude()) + "&appid=" + str(constants.open_weather_map_api_key)
         url = "http://api.openweathermap.org/data/2.5/" + type + "?q=" + constants.city + "&appid=" + str(constants.open_weather_map_api_key)
         if type == self.weather:
             response = requests.get(url).json()
