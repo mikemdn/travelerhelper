@@ -5,6 +5,7 @@ import constants
 
 #from elemWay import ElemWay
 
+
 def convert_distance_into_meters(text):
     coeff = 1
     reg = r"([a-z]+)"
@@ -18,10 +19,26 @@ def convert_distance_into_meters(text):
     for matchNum, number in enumerate(numbers):
         return (float(number.group()) * coeff)
 
+
+def convert_duration_into_minutes(text):
+    reg = r"(([0-9]+)\s([a-z]+))"
+    groups = re.finditer(reg, text, re.MULTILINE)
+    min = 0
+    for matchNum, group in enumerate(groups):
+        if group.groups()[2] == 'd':
+            min += int(group.groups()[1]) * 60 * 24
+        elif group.groups()[2] == 'hours' or group.groups()[2] == 'h':
+            min += int(group.groups()[1]) * 60
+        elif group.groups()[2] == 'mins' or group.groups()[2] == 'min':
+            min += int(group.groups()[1])
+    return min
+
+
 def remove_tags(text):
-      tags =re.compile('<.*?>')
-      cleantext = re.sub(tags,'', text)
-      return cleantext
+    tags =re.compile('<.*?>')
+    cleantext = re.sub(tags,'', text)
+    return cleantext
+
 
 def set_transport(code):
     if code == 'w':
@@ -34,6 +51,7 @@ def set_transport(code):
         return 'transit'
     else:
         pass
+
 
 class RouteManager():
 
@@ -57,7 +75,6 @@ class RouteManager():
         self.steps = self.get_steps()
         self.distance = convert_distance_into_meters(self.dict_reply['routes'][0]['legs'][0]['distance']['text'])
         self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
-
 
     def get_steps(self):
         steps = self.dict_reply['routes'][0]['legs'][0]['steps']
@@ -100,10 +117,6 @@ class RouteManager():
                     step_arrival_location_latitude = item['end_location']['lat']
                     step_arrival_location_longitude = item['end_location']['lng']
 
-
-
-
-
                 steps_info.append(
                     {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction,
                      'type' : step_mode, 'line' : step_line, 'stops' : step_num_stations,
@@ -111,14 +124,11 @@ class RouteManager():
                      'direction' : step_direction, 'arrival_time' : step_arrival_time, 'departure_time' : step_departure_time,
                      'departure_location_lat' : step_departure_location_latitude, 'departure_location_lng' : step_departure_location_longitude,
                      'arrival_location_lat' : step_arrival_location_latitude, 'arrival_location_lng' : step_arrival_location_longitude})
-
-
-            else :
+            else:
                 steps_info.append(
                     {'distance': step_distance, 'duration': step_duration, 'instruction': step_instruction})
 
         return steps_info
-
 
     def display_steps(self):
         step_num = 1
@@ -130,10 +140,8 @@ class RouteManager():
                                                                              "Arr Lng"))
 
 
-        else :
+        else:
             print("{:14}{:14}{:14}{:50}".format("Steps", "Duration", "Distance", "Instruction"))
-
-
 
         print("-"*200)
         if 'line' in self.steps[0].keys():
@@ -145,14 +153,11 @@ class RouteManager():
                     str(step['departure_location_lng'])))
                 step_num += 1
 
-        else :
+        else:
             for step in self.steps:
                 print("{:14}{:14}{:14}{:50}".format(
                     str(step_num), step['duration'], step['distance'], step['instruction']))
                 step_num += 1
-
-
-
 
     def get_distance(self):
         return self.distance
@@ -170,7 +175,7 @@ class RouteManager():
         print('{:14} : {} \n{:14} : {}'.format('Start Address', self.get_departure_address(), 'Destination', self.get_destination_address()))
 
     def display_distance_duration(self):
-        print('{:14} : {} \n{:14} : {}'.format('Total duration',self.get_duration(), 'Total distance', self.get_distance()))
+        print('{:14} : {} \n{:14} : {}'.format('Total duration', self.get_duration(), 'Total distance', self.get_distance()))
 
     def display_all(self):
         self.display_addresses()

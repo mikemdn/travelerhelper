@@ -7,7 +7,7 @@ class AutolibStation(Station):
         Station.__init__(self, latitude, longitude)
         self.capacity = capacity
 
-    def object_to_string(self):
-        print("\nLatitude : " + str(self.position.latitude) + "\nLongitude : " + str(self.position.longitude) + "\nCapacity : " + str(self.capacity))
+    """def object_to_string(self):
+        print("\nLatitude : " + str(self.position.latitude) + "\nLongitude : " + str(self.position.longitude) + "\nCapacity : " + str(self.capacity))"""
 
 

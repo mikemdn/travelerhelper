@@ -1,8 +1,7 @@
-################ Partie API ####################
-from business.WayManager import WayManager
 from business.choiceManager import ChoiceManager
 import constants
 import requests
+
 
 class ApiRoute:
     def __init__(self, array):
@@ -15,15 +14,20 @@ class ApiRoute:
         print(self.array)
 
     def get_route_api_front(self):
-        """returns a WayManager object with information from the interface"""
+        """Returns a WayManager object with information from the interface"""
         self.get_geolocation()
-        available_transport_types = ChoiceManager(2).get_available_transport_list()  # ajouter le main criteria
-        return WayManager(self.array, available_transport_types)
+
+        ## Attention, coder ceci de manière dynamique
+        main_criteria = 1
+        choice_manager = ChoiceManager(main_criteria, self.array)
+        ways = choice_manager.get_sorted_way_list_according_to_main_criteria()
+        return ways
 
     def data_structure(self):
         """Returns a dictionnary with all the ways and their Elem ways, with information about distance, duration and steps"""
         way_dict = {}
-        ways = self.get_route_api_front().ways
+        ways = self.get_route_api_front()
+        print(ways)
         for way in ways:
             if "t" in way.type:
                 way_type = "Transit"
@@ -52,5 +56,5 @@ class ApiRoute:
 """
 
 if __name__ == "__main__":
-    apiroute=ApiRoute({})
+    apiroute = ApiRoute({})
     apiroute.get_geolocation()

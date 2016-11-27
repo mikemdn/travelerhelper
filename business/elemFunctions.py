@@ -1,9 +1,10 @@
-from business.ElemWay import ElemWay
-from business.Way import Way
+from business.elemWay import ElemWay
+from business.way import Way
 from dao import position
 from dao import stationManager
 from dao.routeManager import RouteManager
 from dao.routeManager import convert_distance_into_meters
+from dao.routeManager import convert_duration_into_minutes
 from dao.position import Position
 
 """ METHODES ELEMENTAIRES """
@@ -63,7 +64,7 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
     transit_way.distance = route_manager.distance
     transit_way.price = 2.25
-    transit_way.duration = route_manager.duration
+    transit_way.duration = convert_duration_into_minutes(route_manager.duration)
 
     return transit_way
 
