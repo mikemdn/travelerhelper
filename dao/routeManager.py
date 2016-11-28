@@ -1,23 +1,16 @@
 import requests
 import re
-from dao.position import Position
 import constants
-
-#from elemWay import ElemWay
 
 
 def convert_distance_into_meters(text):
     coeff = 1
-    reg = r"([a-z]+)"
+    reg = r"(([0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
-        if letter.group() == 'km':
+        if letter.groups()[2] == 'km':
             coeff = 1000
-        break
-    regex = r"([0-9]+.?[0-9]+)"
-    numbers = re.finditer(regex, text, re.MULTILINE)
-    for matchNum, number in enumerate(numbers):
-        return (float(number.group()) * coeff)
+        return float(letter.groups()[1]) * coeff
 
 
 def convert_duration_into_minutes(text):
@@ -27,10 +20,27 @@ def convert_duration_into_minutes(text):
     for matchNum, group in enumerate(groups):
         if group.groups()[2] == 'd':
             min += int(group.groups()[1]) * 60 * 24
-        elif group.groups()[2] == 'hours' or group.groups()[2] == 'h':
+        elif group.groups()[2] == 'h':
             min += int(group.groups()[1]) * 60
-        elif group.groups()[2] == 'mins' or group.groups()[2] == 'min':
+        elif group.groups()[2] == 'mins':
             min += int(group.groups()[1])
+    return min
+
+
+def convert_duration_into_minutes(text):
+    try:
+        reg = r"(([0-9]+)\s([a-z]+))"
+        groups = re.finditer(reg, text, re.MULTILINE)
+        min = 0
+        for matchNum, group in enumerate(groups):
+            if group.groups()[2] == 'd':
+                min += int(group.groups()[1]) * 60 * 24
+            elif group.groups()[2] == 'hours' or group.groups()[2] == 'h':
+                min += int(group.groups()[1]) * 60
+            elif group.groups()[2] == 'mins' or group.groups()[2] == 'min':
+                min += int(group.groups()[1])
+    except TypeError:
+        min = text
     return min
 
 
@@ -53,11 +63,11 @@ def set_transport(code):
         pass
 
 
-class RouteManager():
+class RouteManager:
 
     def __init__(self, departure, destination, mean_of_transport):
-        #departure and destination are two objects Position
-        #mean_of transport must be in the following list : driving, walking, bicycling, transit
+        # departure and destination are two objects Position
+        # mean_of transport must be in the following list : driving, walking, bicycling, transit
         self.transport = set_transport(mean_of_transport)
         self.departure_latitude = departure.get_latitude()
         self.departure_longitude = departure.get_longitude()
@@ -65,7 +75,7 @@ class RouteManager():
         self.destination_latitude = destination.get_latitude()
         self.destination_longitude = destination.get_longitude()
         self.destination_address = destination.address
-        #self.mean_of_transport = elemway.type
+        #s elf.mean_of_transport = elemway.type
 
         self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key={}".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport, constants.google_maps_api_key)
         print(self.url)
@@ -74,7 +84,7 @@ class RouteManager():
         self.dict_reply = self.reply.json()
         self.steps = self.get_steps()
         self.distance = convert_distance_into_meters(self.dict_reply['routes'][0]['legs'][0]['distance']['text'])
-        self.duration = self.dict_reply['routes'][0]['legs'][0]['duration']['text']
+        self.duration = convert_duration_into_minutes(self.dict_reply['routes'][0]['legs'][0]['duration']['text'])
 
     def get_steps(self):
         steps = self.dict_reply['routes'][0]['legs'][0]['steps']
@@ -134,12 +144,9 @@ class RouteManager():
         step_num = 1
         self.get_steps()
         if 'line' in self.steps[0].keys():
-            print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:40}{:40}{:40}{:20}{:20}{:20}{:20}{:20}{:20}".format("Steps", "Duration", "Distance", "Instruction","Type",
-                                                                     "Line", "Stops", "Departure Station", "Arrival Station", "Direction",
-                                                                             "Arrival Time", "Departure Time", "Dep Lat", "Dep Lng", "Arr Lat",
-                                                                             "Arr Lng"))
-
-
+            print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:40}{:40}{:40}{:20}{:20}{:20}{:20}{:20}{:20}"
+                  .format("Steps", "Duration", "Distance", "Instruction", "Type", "Line", "Stops", "Departure Station","Arrival Station",
+                          "Direction", "Arrival Time", "Departure Time", "Dep Lat", "Dep Lng", "Arr Lat", "Arr Lng"))
         else:
             print("{:14}{:14}{:14}{:50}".format("Steps", "Duration", "Distance", "Instruction"))
 
@@ -184,6 +191,8 @@ class RouteManager():
         self.display_steps()
 
 if __name__ == "__main__":
+    print(convert_duration_into_minutes('1 d 2 h 36 mins'))
+    """
     start_location = Position(48.837284, 2.472064, "")
     autolib_depart = Position(48.864136, 2.2883, "")
     autolib_arrivee = Position(48.856579, 2.353831, "")
@@ -191,3 +200,4 @@ if __name__ == "__main__":
 
     route1 = RouteManager(start_location, end_location, 't')
     route1.display_all()
+        """

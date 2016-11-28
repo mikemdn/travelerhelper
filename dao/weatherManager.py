@@ -39,7 +39,6 @@ class WeatherManager:
         wind = response["wind"]["speed"]
 
         weather = Weather(type, temperature, humidity, rain, clouds, wind)
-        #weather.weather_to_string()
         return weather
 
     def find_correct_forecast_index(self, first_date_time_in_the_list, wanted_date_time):

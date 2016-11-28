@@ -11,12 +11,14 @@ def ask_input(question):
         else:
             print("The answer is not valid.\n")
 
+
 def display_summary(array):
     print("Your destination is : {}".format(array['destination']))
     print("Your criteria are :")
     for item in array:
         if array[item] == True:
             print(item)
+
 
 def display_ways(array):
     for item in array.items():
@@ -27,6 +29,7 @@ def display_ways(array):
         print('=' * 20)
 
 display_ways({'Cycling':['Turn left', 'Turn Right', 'Come on !'], 'Autolib':['Take a car', 'Drive'], 'Subway':['Take the A line', 'Take the 5 line']})
+
 
 def main():
     search = False

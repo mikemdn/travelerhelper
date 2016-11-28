@@ -10,26 +10,27 @@ class Way:
         self.type = []
 
     def __add__(self, other):
-        waySum = Way()
-        waySum.price = self.price + other.price
-        waySum.distance = self.distance + float(other.distance)
-        waySum.type = self.type
-        waySum.elemWaysTable = self.elemWaysTable
-        waySum.duration = self.duration + routeManager.convert_duration_into_minutes(other.duration)
+        way_sum = Way()
+        way_sum.price = self.price + other.price
+        way_sum.distance = self.distance + int(other.distance)
+        way_sum.duration = self.duration + int(other.duration)
+        way_sum.type = self.type
+        way_sum.elemWaysTable = self.elemWaysTable
+        way_sum.duration = self.duration + routeManager.convert_duration_into_minutes(other.duration)
 
         if isinstance(other, Way):
-            waySum.elemWaysTable += other.elemWaysTable
+            way_sum.elemWaysTable += other.elemWaysTable
             for i in range(len(other.type)):
-                if other.type[i] not in waySum.type:
-                    waySum.type += other.type[i]
+                if other.type[i] not in way_sum.type:
+                    way_sum.type += other.type[i]
 
         else:
-            waySum.elemWaysTable.append(other)
+            way_sum.elemWaysTable.append(other)
 
-            if other.type not in waySum.type:
-                waySum.type += other.type
+            if other.type not in way_sum.type:
+                way_sum.type += other.type
 
-        return waySum
+        return way_sum
 
     def __repr__(self):
         return "<Type {} (distance = {}, duration = {}, price = {} >"\

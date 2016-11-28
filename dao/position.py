@@ -14,7 +14,7 @@ class Position:
             self.longitude = longitude
             self.address = Position.get_address_from_coordinates(self)
         else:
-            #lever une exception
+            # lever une exception
             print("Il y a un souci...")
 
     def get_address_from_coordinates(self):
