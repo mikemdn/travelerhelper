@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
-<h1>Bienvenue sur traveler helper</h1>
-<a href="signin/"><input type="button" value="Se Connecter" /></a>
-
-<a href="signup/"><input type="button" value="S'inscrire" /></a>
-<a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
-</body>
+    <head>
+        {% load static from staticfiles %}
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'findways/style.css' %}">
+        <title>Index</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 margin-top-10">
+                    <a href="http://localhost:8000/findways/logout">
+                        <input type="button" class="btn btn-default button-main pull-right" value="Se déconnecter" />
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 margin-top-10">
+                    <div class="jumbotron jumbotron-background">
+                        <h1 class="center">Bienvenue sur Traveler Helper</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 margin-top-30">
+                    <a href="signin/">
+                        <input type="button" class="btn btn-default button-main btn-lg btn-group col-xs-offset-3 col-xs-6" role="group" value="Se Connecter" />
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 margin-top-60">
+                    <a href="signup/">
+                        <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6" value="S'inscrire" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
