@@ -5,26 +5,14 @@ import constants
 
 def convert_distance_into_meters(text):
     coeff = 1
-    reg = r"(([0-9]+)\s([a-z]+))"
+    print(text)
+    reg = r"(([0-9]+.?[0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
+        print()
         if letter.groups()[2] == 'km':
             coeff = 1000
         return float(letter.groups()[1]) * coeff
-
-
-def convert_duration_into_minutes(text):
-    reg = r"(([0-9]+)\s([a-z]+))"
-    groups = re.finditer(reg, text, re.MULTILINE)
-    min = 0
-    for matchNum, group in enumerate(groups):
-        if group.groups()[2] == 'd':
-            min += int(group.groups()[1]) * 60 * 24
-        elif group.groups()[2] == 'h':
-            min += int(group.groups()[1]) * 60
-        elif group.groups()[2] == 'mins':
-            min += int(group.groups()[1])
-    return min
 
 
 def convert_duration_into_minutes(text):

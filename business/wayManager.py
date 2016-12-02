@@ -26,7 +26,6 @@ class WayManager:
                 ways.append(WayManager.get_walking_way(self))
             elif transport_type == "uber":
                 for uber_type in WayManager.get_uber_way(self):
-                    uber_type.uber_to_string()
                     ways.append(uber_type)
             else:
                 print("Le type de transport ne fait pas partie des possibilités.")

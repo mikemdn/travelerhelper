@@ -12,7 +12,7 @@ class ApiRoute:
         url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key
         r = requests.post(url).json()
         self.array['departure'] = (r['location'])
-        print("r =".format(self.array))
+        print("geolocation : {}".format(r))
 
     def get_route_api_front(self):
         """Returns a WayManager object with information from the interface"""

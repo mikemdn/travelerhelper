@@ -12,8 +12,8 @@ class Way:
     def __add__(self, other):
         way_sum = Way()
         way_sum.price = self.price + other.price
-        way_sum.distance = self.distance + int(other.distance)
-        way_sum.duration = self.duration + int(other.duration)
+        way_sum.distance = self.distance + float(other.distance)
+        way_sum.duration = self.duration + float(other.duration)
         way_sum.type = self.type
         way_sum.elemWaysTable = self.elemWaysTable
         way_sum.duration = self.duration + routeManager.convert_duration_into_minutes(other.duration)

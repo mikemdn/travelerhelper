@@ -17,6 +17,7 @@ class UberManager:
         self.end_longitude = str(end_longitude)
         self.elemwayTable = dway.elemWaysTable
         self.duration = dway.duration
+        print(dway.duration, dway.distance)
         self.distance = dway.distance
         self.uberTable = self.get_uber()
 
@@ -36,6 +37,7 @@ class UberManager:
             # Gives it information about distance and duration thanks to Google Maps
             uber.duration = self.duration
             uber.distance = self.distance
+            print("distance : {}, duration : {}".format(self.distance, self.duration))
             # Gives it a default step
             elemway = self.elemwayTable[0]
             elemway.steps = [{'distance': '', 'duration': '', 'instruction': 'Connect to the Uber App ! An Uber is {} minutes away'.format(seconds_to_minutes(option["duration"]))}]
