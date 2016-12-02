@@ -1,0 +1,68 @@
+/**** COLORS ****/
+/*red       : #F23557  (242,53,87)      */
+/*yellow    : #F0D43A  (240,212,58)     */
+/*blue      : #22B2DA  (34,178,218)     */
+
+.jumbotron-background {
+    background-color: rgb(34,178,218);
+    color: #FFF;
+}
+.title {
+    color: #22B2DA;
+    border-bottom: 1px solid #22B2DA;
+}
+
+/**** BUTTONS ****/
+.button-main {
+    color: #22B2DA;
+    border-color: #22B2DA;
+}
+.button-main:hover, .button-main:active, .button-main:target {
+    color: #FFF;
+    background-color: #22B2DA;
+    border-color: #22B2DA;
+}
+
+/**** FORMS ****/
+input#id_username, input#id_password, input#id_password1, input#id_password2 {
+    border: 1px solid #22B2DA;
+    border-radius: 5px;
+    width: 30%;
+    height: 35px;
+}
+label {
+    width: 20%;
+    color: rgba(0,0,0,0.5)
+}
+.warning-text {
+    margin-top: 60px;
+    text-align: center;
+    font-weight: bold;
+    color: rgba(242,53,87,0.8);
+}
+
+/**** MARGINS ****/
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+.margin-top-30 {
+    margin-top: 30px;
+}
+.margin-top-60 {
+    margin-top: 60px;
+}
+
+.margin-left-60 {
+    margin-left: 60px;
+}
+
+/**** ALIGNMENT ****/
+
+.center {
+    text-align: center;
+}
+.pull-right {
+    text-align: right;
+}
+

@@ -1,14 +1,37 @@
-<h1>S'inscrire</h1>
-
-{% if error %}
-<p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
-{% elif userAlreadyExists %}
-<p><strong>Mmmmh Utilisateur déjà pris...</strong></p>
-{% else %}
-<form method="post" action=".">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="S'inscrire" />
-</form>
-{% endif %}
-<a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'findways/style.css' %}">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 margin-top-10">
+            <a href="http://localhost:8000/findways/">
+                <input type="button" class="btn btn-default button-main" value="Précédent" />
+            </a>
+        </div>
+        <div class="col-xs-offset-4 col-xs-4 margin-top-10">
+            <a href="http://localhost:8000/findways/logout">
+                <input type="button" class="btn btn-default button-main pull-right" value="Se déconnecter" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 margin-top-10">
+            <h1 class="title">S'inscrire</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% if error %}
+            <p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+        {% elif userAlreadyExists %}
+            <p><strong>Mmmmh Utilisateur déjà pris...</strong></p>
+        {% else %}
+        <form method="post" action="." class="margin-top-60">
+            {% csrf_token %}
+            <div class="col-xs-offset-4">
+                {{ form.as_p }}
+            </div>
+            <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="S'inscrire" />
+        </form>
+        {% endif %}
+    </div>
+</div>

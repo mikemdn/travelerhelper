@@ -68,13 +68,13 @@ def log_out(request):
 # FORMS
 
 class ConnexionForm(forms.Form):
-    username = forms.CharField(label="Nom d'utilisateur", max_length=30)
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
+    username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
+    password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
 
 class RegisterForm(forms.Form):
-    username = forms.CharField(label="Nom d'utilisateur", max_length=30)
-    mail = forms.CharField(label="E-mail address", max_length=50)
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
+    username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
+    mail = forms.CharField(label="E-mail address ", max_length=50)
+    password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
 
 class ProfileForm(forms.ModelForm):
 
