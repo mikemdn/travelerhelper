@@ -1,9 +1,9 @@
-<form method="post" action=".">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Ton profil" />
-</form>
-
-<br/>
-<p>coucou</p>
+Permis de conduire : {{user.profile.licence}} <br/>
+Carte de crédit : {{user.profile.card}} <br/>
+Pass Navigo : {{user.profile.navigo}} <br/>
+Pass Vélib : {{user.profile.velibPass}} <br/>
+Voiture : {{user.profile.car}} <br/>
+Vélo : {{user.profile.bike}} <br/>
+<a href="{% url 'findways:edit_profile' %}"><input type="button" value="Changer mon profil" /></a>
 <a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
+

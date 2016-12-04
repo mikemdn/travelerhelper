@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^signin/$', views.signin, name = 'signin'),
     url(r'^signup/$', views.signup, name = 'signup'),
     url(r'^mytravel/$', views.mytravel, name='mytravel'),
+    url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
     url(r'^logout/$', views.log_out, name ='logout')
 
 ]

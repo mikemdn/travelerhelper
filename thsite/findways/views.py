@@ -53,15 +53,21 @@ def signin(request):
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
 
-    if request.method == "POST":
-        form = ProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
     return render(request, 'findways/mytravel.html')
 
 def log_out(request):
     logout(request)
     return redirect("http://localhost:8000/findways/")
+
+def edit_profile(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect("http://localhost:8000/findways/mytravel")
+    else :
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'findways/edit_profile.html', locals())
 
 
 ###################################################################################################################
