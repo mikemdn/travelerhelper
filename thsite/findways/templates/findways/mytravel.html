@@ -7,3 +7,10 @@ Vélo : {{user.profile.bike}} <br/>
 <a href="{% url 'findways:edit_profile' %}"><input type="button" value="Changer mon profil" /></a>
 <a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
 
+<div>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Trouver le meilleur trajet !" />
+    </form>
+</div>

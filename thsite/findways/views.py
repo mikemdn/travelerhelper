@@ -52,8 +52,20 @@ def signin(request):
 
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
+    if request.method == "POST":
+        form = TravelForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            json = {'destination': data['destination'], 'charged': data['charged'], 'walk': data['walk'], 'bike': data['bike'],
+                    'rich': data['rich'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card}
 
-    return render(request, 'findways/mytravel.html')
+            print(json)
+            return redirect("http://localhost:8000/findways/mytravel")
+    else :
+        form = TravelForm()
+
+    return render(request, 'findways/mytravel.html', locals())
 
 def log_out(request):
     logout(request)
@@ -87,6 +99,14 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['licence', 'card', 'navigo', 'velibPass','car', 'bike']
+
+class TravelForm(forms.Form):
+    destination = forms.CharField(label = "Destination", max_length = 100)
+    charged = forms.BooleanField(required = False)
+    walk = forms.BooleanField(required = False)
+    bike = forms.BooleanField(required = False)
+    car = forms.BooleanField(required = False)
+    rich = forms.BooleanField(required = False)
 
 
 
