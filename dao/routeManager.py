@@ -5,11 +5,9 @@ import constants
 
 def convert_distance_into_meters(text):
     coeff = 1
-    print(text)
     reg = r"(([0-9]+.?[0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
-        print()
         if letter.groups()[2] == 'km':
             coeff = 1000
         return float(letter.groups()[1]) * coeff
@@ -66,7 +64,7 @@ class RouteManager:
         #s elf.mean_of_transport = elemway.type
 
         self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key={}".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport, constants.google_maps_api_key)
-        print(self.url)
+        #print(self.url)
 
         self.reply = requests.get(self.url)
         self.dict_reply = self.reply.json()

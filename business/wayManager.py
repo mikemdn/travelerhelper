@@ -12,6 +12,7 @@ class WayManager:
 
     def get_relevant_ways(self, available_transport_types):
         #way is a list of Ways().
+        way_manager = {}
         ways = []
         for transport_type in available_transport_types:
             if transport_type == "rail":
@@ -29,9 +30,10 @@ class WayManager:
                     ways.append(uber_type)
             else:
                 print("Le type de transport ne fait pas partie des possibilités.")
-        for way in ways:
-            print(str(way.distance) + " " + str(way.type) + " " + str(way.price))
-        return ways
+        way_manager["start_address"] = self.departure_position.address
+        way_manager["end_address"] = self.arrival_position.address
+        way_manager["routes"] = ways
+        return way_manager
 
     def get_ways(self):
         return self.ways

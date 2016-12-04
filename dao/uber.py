@@ -53,7 +53,7 @@ class Uber(Way):
 
     def uber_to_string(self):
         print("Display name: " + str(self.display_name) + "\nLow estimate: " + str(self.low_price_estimate) + "\nHigh estimate: " + str(self.high_price_estimate)
-            + "\nSurge multiplier: " + str(self.surge_multiplier) + "\nWait time: " + str(self.wait_time) + 'Duration: ' + str(self.duration))
+            + "\nSurge multiplier: " + str(self.surge_multiplier) + "\nWait time: " + str(self.wait_time) + '\nDuration: ' + str(self.duration) + '\n')
 
 if __name__ == "__main__":
     print(remove_symbol('62.82 €'))
