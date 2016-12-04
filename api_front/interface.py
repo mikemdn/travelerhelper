@@ -33,8 +33,11 @@ class Interface(Frame):
         self.quit()
 
 
-def display_ways(array):
+def display_ways(json):
     """This is how the information about the different possible ways will be displayed to the user"""
+    print("To go from : {} \n        to : {}".format(json["start_address"], json["end_address"]))
+    print('=' * 20)
+    array = json["routes"]
     for way in array.items():
         print(way[0] + " - {}mins, {}m, {} €".format(str(way[1][0]), str(way[1][1]), str(way[1][2])))
         print('-'*8)
@@ -51,7 +54,7 @@ def main():
             'driving licence': True, 'navigo': False, 'credit card': True}
 
     way_manager = ApiRoute(dico).data_structure()
-    print(way_manager)
+    #print("json : {}".format(way_manager))
     display_ways(way_manager)
 
 

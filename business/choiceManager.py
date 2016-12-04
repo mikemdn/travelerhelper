@@ -77,15 +77,19 @@ class ChoiceManager:
 
     def get_fastest_way(self, requests):
         """Return a Way object for main_criteria #1 on speed"""
-        ways = WayManager(requests, self.available_transports).get_ways()
+        way_manager = WayManager(requests, self.available_transports).get_ways()
+        ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.duration)
-        return sorted_ways
+        way_manager["routes"] = sorted_ways
+        return way_manager
 
     def get_cheapest_way(self, requests):
         """Return a Way object for main_criteria #2 on price"""
-        ways = WayManager(requests, self.available_transports).get_ways()
+        way_manager = WayManager(requests, self.available_transports).get_ways()
+        ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.price)
-        return sorted_ways
+        way_manager["routes"] = sorted_ways
+        return way_manager
 
     def get_lightest_way(self):
         """Return a Way object for main_criteria #3 on load"""

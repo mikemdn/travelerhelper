@@ -12,7 +12,7 @@ class ApiRoute:
         url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key
         r = requests.post(url).json()
         self.array['departure'] = (r['location'])
-        print("geolocation : {}".format(r))
+        #print("geolocation : {}".format(r))
 
     def get_route_api_front(self):
         """Returns a WayManager object with information from the interface"""
@@ -25,10 +25,10 @@ class ApiRoute:
 
     def data_structure(self):
         """Returns a dictionnary with all the ways and their Elem ways, with information about distance, duration and steps"""
+        json = {}
         way_dict = {}
         ways = self.get_route_api_front()
-        print(ways)
-        for way in ways:
+        for way in ways["routes"]:
             if "t" in way.type:
                 way_type = "Transit"
             elif "d" in way.type:
@@ -48,9 +48,20 @@ class ApiRoute:
 
             elemway_tuple = []
             for elemWay in way.elemWaysTable:
+                if elemWay.type == 'c':
+                    elemWay.type = "Bicycle"
+                if elemWay.type == 't':
+                    elemWay.type = "Transit"
+                if elemWay.type == 'w':
+                    elemWay.type = "Walking"
+                if elemWay.type == 'd':
+                    elemWay.type = "Driving"
                 elemway_tuple.append([elemWay.type, (elemWay.distance, elemWay.duration, elemWay.steps)])
             way_dict[way_type] = (way.duration, way.distance, way.price, elemway_tuple)
-        return way_dict
+        json["start_address"] = ways["start_address"]
+        json["end_address"] = ways["end_address"]
+        json["routes"] = way_dict
+        return json
 
 if __name__ == "__main__":
     apiroute = ApiRoute({})
