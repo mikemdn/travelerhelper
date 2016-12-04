@@ -46,7 +46,7 @@ class ApiRoute:
             else:
                 way_type = "Walking"
 
-            elemway_tuple = []
+            elemway_dict = {}
             for elemWay in way.elemWaysTable:
                 if elemWay.type == 'c':
                     elemWay.type = "Bicycle"
@@ -56,8 +56,18 @@ class ApiRoute:
                     elemWay.type = "Walking"
                 if elemWay.type == 'd':
                     elemWay.type = "Driving"
-                elemway_tuple.append([elemWay.type, (elemWay.distance, elemWay.duration, elemWay.steps)])
-            way_dict[way_type] = (way.duration, way.distance, way.price, elemway_tuple)
+                elemway_info = {}
+                elemway_info["ElemWay Distance"] = elemWay.distance
+                elemway_info["ElemWay Duration"] = elemWay.duration
+                elemway_info["ElemWay Steps"] = elemWay.steps
+                elemway_dict[elemWay.type] = elemway_info
+
+            way_info = {}
+            way_info["Total duration"] = way.duration
+            way_info["Total distance"] = way.distance
+            way_info["Price"] = way.price
+            way_info["Route details"] = elemway_dict
+            way_dict[way_type] = way_info
         json["start_address"] = ways["start_address"]
         json["end_address"] = ways["end_address"]
         json["routes"] = way_dict
