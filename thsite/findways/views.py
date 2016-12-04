@@ -56,9 +56,8 @@ def mytravel(request):
         form = TravelForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            json = {'destination': data['destination'], 'charged': data['charged'], 'walk': data['walk'], 'bike': data['bike'],
-                    'rich': data['rich'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
-                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card}
+            json = {'destination': data['destination'],'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria' : int(data['criteria'])}
 
             print(json)
             return redirect("http://localhost:8000/findways/mytravel")
@@ -102,11 +101,9 @@ class ProfileForm(forms.ModelForm):
 
 class TravelForm(forms.Form):
     destination = forms.CharField(label = "Destination", max_length = 100)
-    charged = forms.BooleanField(required = False)
-    walk = forms.BooleanField(required = False)
-    bike = forms.BooleanField(required = False)
-    car = forms.BooleanField(required = False)
-    rich = forms.BooleanField(required = False)
+    CHOICES = [(1, 'Le plus rapide'),(2,'Le moins cher'),(3, 'Le plus pratique si je suis chargé'),(4, 'Celui qui me fait le plus visiter')]
+
+    criteria = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
 
 
 
