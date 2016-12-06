@@ -1,12 +1,13 @@
-from business.elemWay import ElemWay
-from business.way import Way
-from dao import position
-from dao import stationManager
-from dao.routeManager import RouteManager
-from dao.routeManager import convert_distance_into_meters
-from dao.routeManager import convert_duration_into_minutes
-from dao.position import Position
-from dao.uberManager import UberManager
+from findways.backend.business.elemWay import ElemWay
+from findways.backend.dao import position
+from findways.backend.dao import stationManager
+from findways.backend.dao.position import Position
+from findways.backend.dao.routeManager import RouteManager
+from findways.backend.dao.routeManager import convert_distance_into_meters
+from findways.backend.dao.routeManager import convert_duration_into_minutes
+
+from findways.backend.business.way import Way
+from findways.backend.dao.uberManager import UberManager
 
 """ Methods to get information about elementary ways """
 

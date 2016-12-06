@@ -1,4 +1,4 @@
-from dao import routeManager
+from findways.backend.dao import routeManager
 
 
 class Way:

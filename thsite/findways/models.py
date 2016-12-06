@@ -15,11 +15,21 @@ class Profile(models.Model):
     car = models.BooleanField(default=False)
     bike = models.BooleanField(default=False)
 
+
+class Place(models.Model):
+    name = models.CharField(max_length=50)
+    lat = models.FloatField()
+    long = models.FloatField()
+
+
 # Enabling one to one link with the User authentification and the User Profile
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

@@ -40,7 +40,7 @@ class StationManager:
         return output_list
 
     def find_stations_in_radius(self, latitude, longitude, is_velib, is_autolib, distance):
-        #C hecker is_velib != is_autolib and raise an exception if condition not verified
+        # Checker is_velib != is_autolib and raise an exception if condition not verified
         if is_velib and not is_autolib:
             dataset_id = self.dataset_id_velib
         elif not is_velib and is_autolib:

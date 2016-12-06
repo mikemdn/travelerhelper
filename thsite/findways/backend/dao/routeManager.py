@@ -63,7 +63,6 @@ class RouteManager:
         self.destination_latitude = destination.get_latitude()
         self.destination_longitude = destination.get_longitude()
         self.destination_address = destination.address
-        #s elf.mean_of_transport = elemway.type
 
         self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key={}".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport, constants.google_maps_api_key)
         print(self.url)

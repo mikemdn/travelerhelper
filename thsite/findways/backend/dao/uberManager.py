@@ -1,6 +1,6 @@
 import requests
 import constants
-from dao.uber import *
+from findways.backend.dao.uber import *
 
 
 def seconds_to_minutes(string):

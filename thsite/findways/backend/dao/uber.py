@@ -1,5 +1,6 @@
-from business.way import Way
 import re
+
+from findways.backend.business.way import Way
 
 
 def remove_symbol(price):

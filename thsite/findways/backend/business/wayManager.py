@@ -1,5 +1,4 @@
 from .elemFunctions import *
-from dao import position
 
 
 class WayManager:
