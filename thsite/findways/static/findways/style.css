@@ -14,6 +14,10 @@
 .border-right {
     border-right: 1px solid #22B2DA;
 }
+span.blue {
+    color: #22B2DA;
+    font-weight: bold;
+}
 
 /**** BUTTONS ****/
 .button-main {
@@ -44,13 +48,11 @@ input#id_criteria_0, input#id_criteria_1, input#id_criteria_2, input#id_criteria
 }
 ul#id_criteria label {
     color: rgba(0,0,0,0.5);
+    width: 40%;
 }
-label, label#id_destination {
+label {
     width: 20%;
     color: rgba(0,0,0,0.6)
-}
-form#travel.margin-top-60 label {
-    width: 40%;
 }
 .warning-text {
     margin-top: 60px;

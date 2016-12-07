@@ -25,18 +25,78 @@
             </form>
         </div>
         <div class="col-xs-4">
-            <span>Mon profil</span></br>
-            <ul>
-                <li>Permis de conduire : {% if user.profile.licence %} Oui {% else %} Non {% endif %}</li>
-                <li>Carte de crédit : {% if user.profile.card %} Oui {% else %} Non {% endif %}</li>
-                <li>Pass Navigo : {% if user.profile.navigo %} Oui {% else %} Non {% endif %}</li>
-                <li>Pass Vélib : {% if user.profile.velibPass %} Oui {% else %} Non {% endif %}</li>
-                <li>Voiture : {% if user.profile.car %} Oui {% else %} Non {% endif %}</li>
-                <li>Vélo : {% if user.profile.bike %} Oui {% else %} Non {% endif %}</li>
-            </ul>
-            <a href="{% url 'findways:edit_profile' %}">
-                <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Changer mon profil" />
-            </a>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Mon profil
+                </div>
+                <div class="panel-body">
+                    <ul class="margin-top-30">
+                        <li>
+                            <div class="col-xs-8">Permis de conduire</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.licence %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-xs-8">Carte de crédit</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.card %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-xs-8">Pass Navigo</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.navigo %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-xs-8">Pass Vélib</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.velibPass %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-xs-8">Voiture</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.car %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-xs-8">Pass Vélo</div>
+                            <div class="col-xs-4 blue">
+                                {% if user.profile.bike %}
+                                    <span class="blue">Oui</span>
+                                {% else %}
+                                    <span class="blue">Non</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="{% url 'findways:edit_profile' %}">
+                        <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-2 col-xs-8 margin-top-60" value="Changer mon profil" />
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
