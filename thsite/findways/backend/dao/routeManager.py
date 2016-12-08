@@ -6,7 +6,7 @@ import constants
 def convert_distance_into_meters(text):
     coeff = 1
     print(text)
-    reg = r"(([0-9]+.?[0-9]+)\s([a-z]+))"
+    reg = r"(([0-9]*.?[0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
         print()
