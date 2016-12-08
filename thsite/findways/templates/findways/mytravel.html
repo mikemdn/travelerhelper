@@ -10,7 +10,21 @@ Vélo : {% if user.profile.bike %} Oui {% else %} Non {% endif %} <br/>
 
 <div class="row">
     {% if show_result %}
-        <p><strong>{{json2}}</strong></p>
+
+        {% for mean in results %}
+
+                <div class="panel-heading">
+                    {{mean.mean_of_transport}} : {{mean.cost}} € - {{mean.time}} min - {{mean.distance}} m
+                </div>
+
+                <div class="panel-body">
+                    {% for instruction in mean.instructions %}
+                        {{instruction}}</br>
+                    {% endfor %}
+                </div>
+
+        {% endfor %}
+
     {% else %}
     <form method="post" action="." class="margin-top-60">
         {% csrf_token %}

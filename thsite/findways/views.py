@@ -11,17 +11,22 @@ from findways.backend.api_front import api
 from .models import Profile
 
 
-def display_ways(array):
-    """This is how the information about the different possible ways will be displayed to the user"""
-    print(array)
+def process_instructions(array):
+    """Store all the indications to display to the user"""
+    elements_to_display = []
     for way in array.items():
-        print(way[0] + " - {}mins, {}m, {} €".format(str(way[1][0]), str(way[1][1]), str(way[1][2])))
-        print('-'*8)
+        way_infos = {}
+        way_infos['mean_of_transport'] = way[0]
+        way_infos['time'] = str(way[1][0])
+        way_infos['distance'] = str(way[1][1])
+        way_infos['cost'] = str(way[1][2])
+        instructions = []
         for elemWay in way[1][-1]:
-            print('{} : {}m, {}mins'.format(elemWay[0], elemWay[1][0], elemWay[1][1]))
             for elem_step in elemWay[1][-1]:
-                  print(' ' * 8 + elem_step['instruction'])
-        print('=' * 20)
+                instructions.append(elem_step['instruction'])
+        way_infos['instructions'] = instructions
+        elements_to_display.append(way_infos)
+    return elements_to_display
 
 
 def index(request):
@@ -78,7 +83,7 @@ def mytravel(request):
                     'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
             #request.session['json'] = json1
             json2 = api.ApiRoute(json1).data_structure()
-            results = display_ways(json2)
+            results = process_instructions(json2)
     else:
         form = TravelForm()
 
