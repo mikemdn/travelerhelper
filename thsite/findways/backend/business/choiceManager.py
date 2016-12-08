@@ -105,23 +105,12 @@ class ChoiceManager:
         ways = WayManager(requests, self.available_transports).get_ways()
         return ways
 
-    def is_place_to_visit(self, lat_test, long_test, requests):#at_departure, long_departure, lat_arrival, long_arrival):
-        arrival = position.Position(0, 0, requests["destination"])
-        diff_lat = arrival.get_latitude() - 48.85542#requests["departure"]["lat"]
-        diff_long = arrival.get_longitude() - 2.3449869999999464#requests["departure"]["lng"]
-        diff = float(diff_lat / diff_long)
-        lat_on_the_line = float(arrival.get_longitude()) + diff * float(long_test)
-        to_test = abs(float(lat_test) - float(lat_on_the_line))
-        if to_test > 8.02:
-            return False
-        return True
-
     def get_places_to_visit(self, requests):
         arrival = position.Position(0, 0, requests["destination"])
         min_lat = min(requests["departure"]["lat"], arrival.get_latitude())
         max_lat = max(requests["departure"]["lat"], arrival.get_latitude())
-        min_long = min(requests["departure"]["lng"],arrival.get_longitude())
-        max_long = max(requests["departure"]["lng"],arrival.get_longitude())
+        min_long = min(requests["departure"]["lng"], arrival.get_longitude())
+        max_long = max(requests["departure"]["lng"], arrival.get_longitude())
         q1 = Place.objects.filter(long__gte=min_long)
         q2 = q1.filter(long__lte=max_long)
         q3 = q2.filter(lat__gte=min_lat)
