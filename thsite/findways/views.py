@@ -1,14 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 
-from .models import Profile
 from findways.backend.api_front import api
+from .models import Profile
 
 
 def display_ways(array):
@@ -23,8 +23,10 @@ def display_ways(array):
                   print(' ' * 8 + elem_step['instruction'])
         print('=' * 20)
 
+
 def index(request):
     return render(request,'findways/index.html')
+
 
 def signup(request):
     error = False
@@ -41,7 +43,6 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'findways/signup.html', locals())
-
 
 
 def signin(request):
@@ -63,6 +64,7 @@ def signin(request):
 
     return render(request, 'findways/signin.html', locals())
 
+
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
     show_result = False
@@ -72,12 +74,12 @@ def mytravel(request):
         if form.is_valid():
             show_result = True
             data = form.cleaned_data
-            json1 = {'destination': data['destination'],'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
-                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria' : int(data['criteria'])}
+            json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
             #request.session['json'] = json1
             json2 = api.ApiRoute(json1).data_structure()
             results = display_ways(json2)
-    else :
+    else:
         form = TravelForm()
 
     return render(request, 'findways/mytravel.html', locals())
@@ -86,6 +88,7 @@ def mytravel(request):
 def log_out(request):
     logout(request)
     return redirect("http://localhost:8000/findways/")
+
 
 def edit_profile(request):
     if request.method == "POST":
@@ -105,16 +108,19 @@ class ConnexionForm(forms.Form):
     username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
     password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
 
+
 class RegisterForm(forms.Form):
     username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
     mail = forms.CharField(label="E-mail address ", max_length=50)
     password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
+
 
 class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
         fields = ['licence', 'card', 'navigo', 'velibPass','car', 'bike']
+
 
 class TravelForm(forms.Form):
     destination = forms.CharField(label = "Destination", max_length = 100)

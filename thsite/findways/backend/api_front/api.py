@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 import constants
 from findways.backend.business.choiceManager import ChoiceManager

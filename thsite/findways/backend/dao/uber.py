@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 
 from findways.backend.business.way import Way
