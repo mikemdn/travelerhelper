@@ -7,10 +7,42 @@ Vélo : {% if user.profile.bike %} Oui {% else %} Non {% endif %} <br/>
 <a href="{% url 'findways:edit_profile' %}"><input type="button" value="Changer mon profil" /></a>
 <a href="http://localhost:8000/findways/logout"><input type="button" value="Log Out" /></a>
 
-<div>
+<!--
     <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Trouver le meilleur trajet !" />
+        <div class="col-xs-offset-4">
+        <a href="http://localhost:8000/findways/results">
+            <input type="button" value="Trouver le meilleur trajet !" />
+        </a>
+        </div>
     </form>
+
+<div class="row">
+    {% if error %}
+        <p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+    {% elif userAlreadyExists %}
+        <p><strong>Mmmmh Utilisateur déjà pris...</strong></p>
+    {% else %}
+    <form method="post" action="." class="margin-top-60">
+        {% csrf_token %}
+        <div class="col-xs-offset-4">
+            {{ form.as_p }}
+        </div>
+        <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="S'inscrire" />
+    </form>
+    {% endif %}
+</div>
+-->
+
+<div class="row">
+    {% if show_result %}
+        <p><strong>{{json1}}</strong></p>
+    {% else %}
+    <form method="post" action="." class="margin-top-60">
+        {% csrf_token %}
+        <div class="col-xs-offset-4">
+            {{ form.as_p }}
+        </div>
+        <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Trouver le meilleur trajet !" />
+    </form>
+    {% endif %}
 </div>

@@ -12,13 +12,12 @@ class ApiRoute:
         url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key
         r = requests.post(url).json()
         self.array['departure'] = (r['location'])
-        #print("geolocation : {}".format(r))
+        print("geolocation : {}".format(r))
 
     def get_route_api_front(self):
         """Returns a WayManager object with information from the interface"""
         self.get_geolocation()
-        # Attention, coder ceci de manière dynamique
-        main_criteria = 1
+        main_criteria = self.array["criteria"]
         choice_manager = ChoiceManager(main_criteria, self.array)
         ways = choice_manager.get_sorted_way_list_according_to_main_criteria()
         return ways

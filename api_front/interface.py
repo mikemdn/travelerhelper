@@ -51,7 +51,7 @@ def display_ways(json):
 def main():
 
     dico = {'destination': 'Paris', 'charged': False, 'walk': True, 'bike': True, 'rich': False, 'car': True,
-            'driving licence': True, 'navigo': False, 'credit card': True}
+            'driving licence': True, 'navigo': False, 'credit card': True, 'criteria': 1}
 
     way_manager = ApiRoute(dico).data_structure()
     print("json : {}".format(way_manager))

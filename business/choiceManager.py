@@ -67,9 +67,9 @@ class ChoiceManager:
         elif self.main_criteria == 2:
             sorted_ways = self.get_cheapest_way(self.requests)
         elif self.main_criteria == 3:
-            sorted_ways = self.get_lightest_way()
+            sorted_ways = self.get_lightest_way(self.requests)
         elif self.main_criteria == 4:
-            sorted_ways = self.get_touristic_way()
+            sorted_ways = self.get_touristic_way(self.requests)
         else:
             print("Une erreur s'est produite dans le choix du critère principal")
             sorted_ways = []
@@ -91,10 +91,10 @@ class ChoiceManager:
         way_manager["routes"] = sorted_ways
         return way_manager
 
-    def get_lightest_way(self):
+    def get_lightest_way(self, requests):
         """Return a Way object for main_criteria #3 on load"""
-        WayManager("5 avenue des Champs Elysees 75008 PARIS", self.available_transports).get_ways()
+        WayManager(requests, self.available_transports).get_ways()
 
-    def get_touristic_way(self):
+    def get_touristic_way(self, requests):
         """Return a Way object for main_criteria #4 on load"""
-        WayManager("5 avenue des Champs Elysees 75008 PARIS", self.available_transports).get_ways()
+        WayManager(requests, self.available_transports).get_ways()

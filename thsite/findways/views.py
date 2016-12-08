@@ -52,19 +52,30 @@ def signin(request):
 
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
+    show_result = False
+
     if request.method == "POST":
         form = TravelForm(request.POST)
         if form.is_valid():
+            show_result = True
             data = form.cleaned_data
-            json = {'destination': data['destination'],'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+            json1 = {'destination': data['destination'],'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
                     'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria' : int(data['criteria'])}
-
-            print(json)
-            return redirect("http://localhost:8000/findways/mytravel")
+            #request.session['json'] = json1
+            way_manager = ApiRoute(json1).data_structure()
     else :
         form = TravelForm()
 
     return render(request, 'findways/mytravel.html', locals())
+
+"""
+def results(request):
+    #interface.display_ways(request.context)
+    json = request.session['json']
+    extra_context = {'json': json}
+    return render(request,'findways/results.html')
+"""
+
 
 def log_out(request):
     logout(request)
