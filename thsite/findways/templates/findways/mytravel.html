@@ -10,9 +10,7 @@ Vélo : {% if user.profile.bike %} Oui {% else %} Non {% endif %} <br/>
 
 <div class="row">
     {% if show_result %}
-        {% for obj in objects %}
-        <p><strong>{{ obj.name }} - {{ obj.locality }}</strong></p>
-        {% endfor %}
+        <p><strong>{{json2}}</strong></p>
     {% else %}
     <form method="post" action="." class="margin-top-60">
         {% csrf_token %}
