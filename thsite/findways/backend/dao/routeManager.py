@@ -5,7 +5,7 @@ import constants
 
 def convert_distance_into_meters(text):
     coeff = 1
-    reg = r"(([0-9]+.?[0-9]+)\s([a-z]+))"
+    reg = r"(([0-9]*.?[0-9]+)\s([a-z]+))"
     letters = re.finditer(reg, text, re.MULTILINE)
     for matchNum, letter in enumerate(letters):
         if letter.groups()[2] == 'km':
@@ -61,10 +61,8 @@ class RouteManager:
         self.destination_latitude = destination.get_latitude()
         self.destination_longitude = destination.get_longitude()
         self.destination_address = destination.address
-        #s elf.mean_of_transport = elemway.type
 
         self.url = "https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&mode={}&key={}".format(self.departure_latitude, self.departure_longitude, self.destination_latitude, self.destination_longitude, self.transport, constants.google_maps_api_key)
-        #print(self.url)
 
         self.reply = requests.get(self.url)
         self.dict_reply = self.reply.json()
@@ -175,15 +173,3 @@ class RouteManager:
         self.display_distance_duration()
         print('')
         self.display_steps()
-
-if __name__ == "__main__":
-    print(convert_duration_into_minutes('1 d 2 h 36 mins'))
-    """
-    start_location = Position(48.837284, 2.472064, "")
-    autolib_depart = Position(48.864136, 2.2883, "")
-    autolib_arrivee = Position(48.856579, 2.353831, "")
-    end_location = Position(48.848009, 2.312288, "")
-
-    route1 = RouteManager(start_location, end_location, 't')
-    route1.display_all()
-        """

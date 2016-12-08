@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from .elemFunctions import *
-from dao import position
 
 
 class WayManager:
