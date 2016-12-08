@@ -8,7 +8,20 @@ from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 
 from .models import Profile
+from findways.backend.api_front import api
 
+
+def display_ways(array):
+    """This is how the information about the different possible ways will be displayed to the user"""
+    print(array)
+    for way in array.items():
+        print(way[0] + " - {}mins, {}m, {} €".format(str(way[1][0]), str(way[1][1]), str(way[1][2])))
+        print('-'*8)
+        for elemWay in way[1][-1]:
+            print('{} : {}m, {}mins'.format(elemWay[0], elemWay[1][0], elemWay[1][1]))
+            for elem_step in elemWay[1][-1]:
+                  print(' ' * 8 + elem_step['instruction'])
+        print('=' * 20)
 
 def index(request):
     return render(request,'findways/index.html')
@@ -52,16 +65,37 @@ def signin(request):
 
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
+    show_result = False
 
     if request.method == "POST":
-        form = ProfileForm(request.POST, instance=request.user.profile)
+        form = TravelForm(request.POST)
         if form.is_valid():
-            form.save()
-    return render(request, 'findways/mytravel.html')
+            show_result = True
+            data = form.cleaned_data
+            json1 = {'destination': data['destination'],'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria' : int(data['criteria'])}
+            #request.session['json'] = json1
+            json2 = api.ApiRoute(json1).data_structure()
+            results = display_ways(json2)
+    else :
+        form = TravelForm()
+
+    return render(request, 'findways/mytravel.html', locals())
+
 
 def log_out(request):
     logout(request)
     return redirect("http://localhost:8000/findways/")
+
+def edit_profile(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect("http://localhost:8000/findways/mytravel")
+    else :
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'findways/edit_profile.html', locals())
 
 
 ###################################################################################################################
@@ -82,5 +116,8 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['licence', 'card', 'navigo', 'velibPass','car', 'bike']
 
+class TravelForm(forms.Form):
+    destination = forms.CharField(label = "Destination", max_length = 100)
+    CHOICES = [(1, 'Le plus rapide'),(2,'Le moins cher'),(3, 'Le plus pratique si je suis chargé'),(4, 'Celui qui me fait le plus visiter')]
 
-
+    criteria = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
