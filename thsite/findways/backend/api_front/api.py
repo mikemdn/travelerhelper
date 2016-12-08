@@ -20,7 +20,7 @@ class ApiRoute:
         """Returns a WayManager object with information from the interface"""
         self.get_geolocation()
         # Attention, coder ceci de manière dynamique
-        main_criteria = 4
+        main_criteria = self.array['criteria']
         choice_manager = ChoiceManager(main_criteria, self.array)
         ways = choice_manager.get_sorted_way_list_according_to_main_criteria()
         return ways
@@ -74,7 +74,3 @@ class ApiRoute:
         json["end_address"] = ways["end_address"]
         json["routes"] = way_dict
         return json
-
-if __name__ == "__main__":
-    apiroute = ApiRoute({})
-    apiroute.get_geolocation()
