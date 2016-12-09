@@ -34,12 +34,12 @@
         <div class="col-xs-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    {{way.Type}} : {{way.Price}} € - {{way.Total_Duration}} min - {{way.Total_Distance}} m</br>
+                    {{way.Type}} : {{way.Price}} € - {{way.Total_Duration}} min - {{way.Total_Distance}}</br>
                 </div>
 
                 <div class="panel-body">
                 {% for detail in way.Route_Details %}
-                    <b>{{detail.Type}} : {{detail.ElemWay_Duration}} min - {{detail.ElemWay_Distance}} m</b></br>
+                    <b>{{detail.Type}} : {{detail.ElemWay_Duration}} min - {{detail.ElemWay_Distance}}</b></br>
                     {% for step in detail.ElemWay_Steps%}
                     &emsp;&emsp;{{step.instruction}}</br>
                     {% endfor %}

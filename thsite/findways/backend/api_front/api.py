@@ -4,6 +4,12 @@ import requests
 import constants
 from findways.backend.business.choiceManager import ChoiceManager
 
+def convert_meters_into_km(number):
+    if number >= 1000:
+        return "{} km".format(number // 1000)
+    else:
+        return "{} m".format(number)
+
 
 class ApiRoute:
     def __init__(self, array):
@@ -58,14 +64,14 @@ class ApiRoute:
                     elemWay.type = "Driving"
 
                 elemway_info = {}
-                elemway_info["ElemWay_Distance"] = elemWay.distance
+                elemway_info["ElemWay_Distance"] = convert_meters_into_km(float(elemWay.distance))
                 elemway_info["ElemWay_Duration"] = elemWay.duration
                 elemway_info["ElemWay_Steps"] = elemWay.steps
                 elemway_info["Type"] = elemWay.type
                 elemways_list.append(elemway_info)
             way_dict = {}
             way_dict["Total_Duration"] = way.duration
-            way_dict["Total_Distance"] = way.distance
+            way_dict["Total_Distance"] = convert_meters_into_km(way.distance)
             way_dict["Price"] = way.price
             way_dict["Route_Details"] = elemways_list
             way_dict["Type"] = way_type
