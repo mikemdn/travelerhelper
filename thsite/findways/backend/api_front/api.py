@@ -14,12 +14,10 @@ class ApiRoute:
         url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + constants.google_maps_api_key
         r = requests.post(url).json()
         self.array['departure'] = (r['location'])
-        #print("geolocation : {}".format(r))
 
     def get_route_api_front(self):
         """Returns a WayManager object with information from the interface"""
         self.get_geolocation()
-        # Attention, coder ceci de manière dynamique
         main_criteria = self.array['criteria']
         choice_manager = ChoiceManager(main_criteria, self.array)
         ways = choice_manager.get_sorted_way_list_according_to_main_criteria()
@@ -28,7 +26,7 @@ class ApiRoute:
     def data_structure(self):
         """Returns a dictionnary with all the ways and their Elem ways, with information about distance, duration and steps"""
         json = {}
-        way_dict = {}
+        ways_list = []
         ways = self.get_route_api_front()
         for way in ways["routes"]:
             if "t" in way.type:
@@ -48,7 +46,7 @@ class ApiRoute:
             else:
                 way_type = "Walking"
 
-            elemway_dict = {}
+            elemways_list = []
             for elemWay in way.elemWaysTable:
                 if elemWay.type == 'c':
                     elemWay.type = "Bicycle"
@@ -58,19 +56,21 @@ class ApiRoute:
                     elemWay.type = "Walking"
                 if elemWay.type == 'd':
                     elemWay.type = "Driving"
-                elemway_info = {}
-                elemway_info["ElemWay Distance"] = elemWay.distance
-                elemway_info["ElemWay Duration"] = elemWay.duration
-                elemway_info["ElemWay Steps"] = elemWay.steps
-                elemway_dict[elemWay.type] = elemway_info
 
-            way_info = {}
-            way_info["Total duration"] = way.duration
-            way_info["Total distance"] = way.distance
-            way_info["Price"] = way.price
-            way_info["Route details"] = elemway_dict
-            way_dict[way_type] = way_info
-        json["start_address"] = ways["start_address"]
-        json["end_address"] = ways["end_address"]
-        json["routes"] = way_dict
+                elemway_info = {}
+                elemway_info["ElemWay_Distance"] = elemWay.distance
+                elemway_info["ElemWay_Duration"] = elemWay.duration
+                elemway_info["ElemWay_Steps"] = elemWay.steps
+                elemway_info["Type"] = elemWay.type
+                elemways_list.append(elemway_info)
+            way_dict = {}
+            way_dict["Total_Duration"] = way.duration
+            way_dict["Total_Distance"] = way.distance
+            way_dict["Price"] = way.price
+            way_dict["Route_Details"] = elemways_list
+            way_dict["Type"] = way_type
+            ways_list.append(way_dict)
+        json["Start_Address"] = ways["start_address"]
+        json["End_Address"] = ways["end_address"]
+        json["Routes"] = ways_list
         return json

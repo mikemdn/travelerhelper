@@ -30,26 +30,22 @@ class ChoiceManager:
         """Price"""
         if self.main_criteria == 1:
             self.available_transports.append("rail")
-            #self.available_transports.append("road")
             self.available_transports.append("autolib")
             self.available_transports.append("velib")
             self.available_transports.append("walk")
             self.available_transports.append("uber")
         if self.main_criteria == 2:
             self.available_transports.append("rail")
-            #self.available_transports.append("road")
             self.available_transports.append("velib")
             self.available_transports.append("walk")
         """Load"""
         if self.main_criteria == 3:
-            #self.available_transports.append("road")
             self.available_transports.append("autolib")
             self.available_transports.append("walk")
             self.available_transports.append("uber")
             self.walking_limitation = True
         """Tourisme"""
         if self.main_criteria == 4:
-            #self.available_transports.append("road")
             self.available_transports.append("velib")
             self.available_transports.append("walk")
 

@@ -28,6 +28,23 @@
             <h1 class="title">Itinéraire</h1>
         </div>
     </div>
+
+    <div class="row margin-top-30">
+        <div class="col-xs-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    From {{json2.Start_Address}} to {{json2.End_Address}}
+                </div>
+
+                <div class="panel-body">
+                {% for way in json2.Routes %}
+                    {{way.Type}} : {{way.Price}} € - {{way.Total_Duration}} min - {{way.Total_Distance}} m</br>
+                {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+    <!--
         {% for mean in results %}
     <div class="row margin-top-30">
         <div class="col-xs-6">
@@ -46,6 +63,7 @@
         </div>
 
         {% endfor %}
+        -->
     {% else %}
     <div class="row">
         <div class="col-xs-12 margin-top-10">

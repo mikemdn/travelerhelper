@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from findways.backend.business.elemWay import ElemWay
 from findways.backend.dao import position
 from findways.backend.dao import stationManager
@@ -64,13 +66,12 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
         if step['type'] == 'TRANSIT':
             e.type = 't'
-            e.steps = [{'instruction': "Take Line {}, direction {} to {} from {} at {}".format(step['line'],
-                        step['direction'], step['arrival_station'], step['departure_station'], step['departure_time'])}]
+            e.steps = [{'instruction': "Take Line {}, direction {} to {} from {} at {}".format(step['line'].encode('utf-8'),
+                        step['direction'].encode('utf-8'), step['arrival_station'].encode('utf-8'), step['departure_station'].encode('utf-8'), step['departure_time'].encode('utf-8'))}]
         transit_way = transit_way + e
 
-    #transit_way.distance = route_manager.distance
     transit_way.price = 2.25
-    transit_way.duration = route_manager.duration #convert_duration_into_minutes(route_manager.duration)
+    transit_way.duration = route_manager.duration
 
     return transit_way
 
