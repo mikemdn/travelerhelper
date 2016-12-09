@@ -22,7 +22,6 @@ class ChoiceManager:
         """Set the list of available transports"""
         self.available_transports = []
         self.select_transport()
-        self.walking_limitation = False
 
     def select_transport(self):
         """Set the list of available transports and the walking level accepted """
@@ -43,7 +42,6 @@ class ChoiceManager:
             self.available_transports.append("autolib")
             self.available_transports.append("walk")
             self.available_transports.append("uber")
-            self.walking_limitation = True
         """Tourisme"""
         if self.main_criteria == 4:
             self.available_transports.append("velib")
@@ -53,7 +51,6 @@ class ChoiceManager:
         condition_bad_weather = self.weather.get_type() == "Rain" or self.weather.get_type() == "Snow" or \
             self.weather.get_temperature() < 5 or self.weather.get_rain() > 1 or self.weather.get_wind() > 14
         if condition_bad_weather:
-            self.walking_limitation = True
             try:
                 self.available_transports.remove("velib")
             except:
@@ -95,17 +92,20 @@ class ChoiceManager:
 
     def get_lightest_way(self, requests):
         """Return a Way object for main_criteria #3 on load"""
-        ways = WayManager(requests, self.available_transports).get_ways()
+        way_manager = WayManager(requests, self.available_transports).get_ways()
+        ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.duration)
-        return sorted_ways
+        way_manager["routes"] = sorted_ways
+        return way_manager
 
     def get_touristic_way(self, requests):
         """Return a Way object for main_criteria #4 on load"""
-        places_to_visit = self.get_places_to_visit(requests)
         ways = WayManager(requests, self.available_transports).get_ways()
+        ways['places_to_visit'] = self.set_places_to_visit_to_json(self.get_places_to_visit(requests))
         return ways
 
     def get_places_to_visit(self, requests):
+        """Find in the database all the places that are in the rectangle defined by the departure and arrival positions"""
         arrival = position.Position(0, 0, requests["destination"])
         min_lat = min(requests["departure"]["lat"], arrival.get_latitude())
         max_lat = max(requests["departure"]["lat"], arrival.get_latitude())
@@ -119,8 +119,8 @@ class ChoiceManager:
             return self.get_closest_places_to_visit(places_to_visit, arrival, requests)
         return places_to_visit
 
-    # definir le filtrage des places
     def get_closest_places_to_visit(self, places_to_visit, arrival, requests):
+        """Method to get the three places that are the closest to the line linking departure and arrival"""
         places_to_visit_filtered = {}
         steps_list = []
         for place in places_to_visit:
@@ -135,9 +135,20 @@ class ChoiceManager:
         return steps_list
 
     def get_distance_to_direct_line(self, arrival, requests, place):
+        """Method to calculate the distance between a place and the line linking departure and arrival"""
         delta_lat = arrival.get_latitude() - requests["departure"]["lat"]
         delta_long = arrival.get_longitude() - requests["departure"]["lng"]
         a = float(delta_lat / delta_long)
         b = -1
         c = arrival.get_longitude()
         return (a * place.long + b * place.lat + float(c)) / math.sqrt(pow(a, 2) + pow(b, 2))
+
+    def set_places_to_visit_to_json(self, places_to_visit):
+        liste_to_send = []
+        for place in places_to_visit:
+            json = {}
+            json['name'] = place.name.encode('utf-8')
+            json['lat'] = place.lat
+            json['long'] = place.long
+            liste_to_send.append(json)
+        return liste_to_send

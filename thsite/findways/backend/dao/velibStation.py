@@ -9,6 +9,5 @@ class VelibStation(Station):
         self.status = status
         self.capacity = capacity
 
-
     def object_to_string(self):
         print("\nlongitude : " + str(self.position.longitude) + "\nlatitude : " + str(self.position.latitude) + "\ncapacity : " + str(self.capacity) + "\navailability : " + str(self.availability) + "\nstatus : " + str(self.status))

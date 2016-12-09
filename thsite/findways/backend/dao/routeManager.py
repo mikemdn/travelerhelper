@@ -106,8 +106,9 @@ class RouteManager:
                     step_departure_location_longitude = item['transit_details']['departure_stop']['location']['lng']
                     step_arrival_location_latitude = item['transit_details']['arrival_stop']['location']['lat']
                     step_arrival_location_longitude = item['transit_details']['arrival_stop']['location']['lng']
-                    step_instruction = "Take Line {}, direction {} to {} from {} at {} ({} stations)".format(step_line,
-                       step_direction.encode('utf-8'), step_arrival_station, step_departure_station, step_departure_time, step_num_stations)
+                    step_instruction = "Take Line {}, direction {} to {} from {} at {} ({} stations)".format(step_line.encode('utf-8'),
+                        step_direction.encode('utf-8'), step_arrival_station.encode('utf-8'), step_departure_station.encode('utf-8'),
+                        step_departure_time.encode('utf-8'), step_num_stations)
 
                 if step_mode == "WALKING":
                     step_departure_location_latitude = item['start_location']['lat']
@@ -128,32 +129,6 @@ class RouteManager:
 
         return steps_info
 
-    def display_steps(self):
-        step_num = 1
-        self.get_steps()
-        if 'line' in self.steps[0].keys():
-            print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:40}{:40}{:40}{:20}{:20}{:20}{:20}{:20}{:20}"
-                  .format("Steps", "Duration", "Distance", "Instruction", "Type", "Line", "Stops", "Departure Station","Arrival Station",
-                          "Direction", "Arrival Time", "Departure Time", "Dep Lat", "Dep Lng", "Arr Lat", "Arr Lng"))
-        else:
-            print("{:14}{:14}{:14}{:50}".format("Steps", "Duration", "Distance", "Instruction"))
-
-        print("-"*200)
-        if 'line' in self.steps[0].keys():
-            for step in self.steps:
-                print("{:14}{:14}{:14}{:50}{:10}{:7}{:10}{:40}{:40}{:40}{:20}{:20}{:20}{:20}{:20}{:20}".format(
-                str(step_num), step['duration'], step['distance'], step['instruction'], step['type'], step['line'],
-                str(step['stops']), step['departure_station'], step['arrival_station'], step['direction'], str(step['arrival_time']),
-                str(step['departure_time']), str(step['departure_location_lat']), str(step['departure_location_lng']), str(step['arrival_location_lat']),
-                    str(step['departure_location_lng'])))
-                step_num += 1
-
-        else:
-            for step in self.steps:
-                print("{:14}{:14}{:14}{:50}".format(
-                    str(step_num), step['duration'], step['distance'], step['instruction']))
-                step_num += 1
-
     def get_distance(self):
         return self.distance
 
@@ -165,15 +140,3 @@ class RouteManager:
 
     def get_destination_address(self):
         return self.destination_address
-
-    def display_addresses(self):
-        print('{:14} : {} \n{:14} : {}'.format('Start Address', self.get_departure_address(), 'Destination', self.get_destination_address()))
-
-    def display_distance_duration(self):
-        print('{:14} : {} \n{:14} : {}'.format('Total duration', self.get_duration(), 'Total distance', self.get_distance()))
-
-    def display_all(self):
-        self.display_addresses()
-        self.display_distance_duration()
-        print('')
-        self.display_steps()

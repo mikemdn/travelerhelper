@@ -4,6 +4,7 @@ import requests
 import constants
 from findways.backend.business.choiceManager import ChoiceManager
 
+
 def convert_meters_into_km(number):
     if number >= 1000:
         return "{} km".format(number // 1000)
@@ -83,5 +84,9 @@ class ApiRoute:
         json["Start_Address_Coords"] = ways["start_address_coords"]
         json["End_Address_Coords"] = ways["end_address_coords"]
         json["Routes"] = ways_list
-        print(json)
+        try:
+            json["Places_to_visit"] = ways["places_to_visit"]
+        except KeyError:
+            print("Vous n'êtes pas dans le mode visite")
         return json
+

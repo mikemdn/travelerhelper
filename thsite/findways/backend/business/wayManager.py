@@ -6,13 +6,12 @@ from .elemFunctions import *
 class WayManager:
 
     def __init__(self, request, available_transport_types):
-        # Ajouter en paramètre de la fonction ses coordonnées gps
         self.departure_position = position.Position(float(request['departure']['lat']), float(request['departure']['lng']), "")
         self.arrival_position = position.Position(0, 0, request["destination"])
         self.ways = self.get_relevant_ways(available_transport_types)
 
     def get_relevant_ways(self, available_transport_types):
-        #way is a list of Ways().
+        # way is a list of Ways().
         way_manager = {}
         ways = []
         for transport_type in available_transport_types:
