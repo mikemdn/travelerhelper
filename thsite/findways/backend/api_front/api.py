@@ -4,6 +4,7 @@ import requests
 import constants
 from findways.backend.business.choiceManager import ChoiceManager
 
+
 def convert_meters_into_km(number):
     if number >= 1000:
         return "{} km".format(number // 1000)

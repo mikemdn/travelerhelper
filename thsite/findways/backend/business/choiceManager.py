@@ -22,7 +22,6 @@ class ChoiceManager:
         """Set the list of available transports"""
         self.available_transports = []
         self.select_transport()
-        self.walking_limitation = False
 
     def select_transport(self):
         """Set the list of available transports and the walking level accepted """
@@ -43,7 +42,6 @@ class ChoiceManager:
             self.available_transports.append("autolib")
             self.available_transports.append("walk")
             self.available_transports.append("uber")
-            self.walking_limitation = True
         """Tourisme"""
         if self.main_criteria == 4:
             self.available_transports.append("velib")
@@ -53,7 +51,6 @@ class ChoiceManager:
         condition_bad_weather = self.weather.get_type() == "Rain" or self.weather.get_type() == "Snow" or \
             self.weather.get_temperature() < 5 or self.weather.get_rain() > 1 or self.weather.get_wind() > 14
         if condition_bad_weather:
-            self.walking_limitation = True
             try:
                 self.available_transports.remove("velib")
             except:
@@ -95,9 +92,11 @@ class ChoiceManager:
 
     def get_lightest_way(self, requests):
         """Return a Way object for main_criteria #3 on load"""
-        ways = WayManager(requests, self.available_transports).get_ways()
+        way_manager = WayManager(requests, self.available_transports).get_ways()
+        ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.duration)
-        return sorted_ways
+        way_manager["routes"] = sorted_ways
+        return way_manager
 
     def get_touristic_way(self, requests):
         """Return a Way object for main_criteria #4 on load"""

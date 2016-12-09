@@ -46,7 +46,3 @@ class UberManager:
     def display_uber(self):
         for uber in self.uberTable:
             uber.uber_to_string()
-
-if __name__ == "__main__":
-    uberRoute = UberManager(48.771896, 2.2707479999999998, 48.856614, 2.3522219)
-    uberRoute.display_uber()

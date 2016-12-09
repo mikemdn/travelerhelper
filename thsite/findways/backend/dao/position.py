@@ -26,7 +26,6 @@ class Position:
     def get_coordinates_from_address(self):
         # Get coordinates from Google Maps Geocoding API
         url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + "\"{}\"".format(self.address) + "&key=" + constants.google_maps_api_key
-        #print("coord - address : {}".format(url))
         result = requests.get(url).json()
         return result["results"][0]["geometry"]["location"]["lat"], result["results"][0]["geometry"]["location"]["lng"]
 
