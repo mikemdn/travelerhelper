@@ -31,8 +31,10 @@ class WayManager:
                     ways.append(uber_type)
             else:
                 print("Le type de transport ne fait pas partie des possibilités.")
-        way_manager["start_address"] = self.departure_position.address
+        way_manager["start_address"] = self.arrival_position.address
         way_manager["end_address"] = self.arrival_position.address
+        way_manager["start_address_coords"] = {'lat' : self.departure_position.get_latitude(),'lng' : self.departure_position.get_longitude()}
+        way_manager["end_address_coords"] = {'lat' : self.arrival_position.get_latitude(),'lng' : self.arrival_position.get_longitude()}
         way_manager["routes"] = ways
         return way_manager
 

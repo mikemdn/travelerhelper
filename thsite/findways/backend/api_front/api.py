@@ -66,6 +66,8 @@ class ApiRoute:
                 elemway_info = {}
                 elemway_info["ElemWay_Distance"] = convert_meters_into_km(float(elemWay.distance))
                 elemway_info["ElemWay_Duration"] = elemWay.duration
+                elemway_info["departure"] = {"lat" : elemWay.departure.get_latitude(), "lng" : elemWay.departure.get_longitude()}
+                elemway_info["destination"] = {"lat" : elemWay.arrival.get_latitude(), "lng" : elemWay.arrival.get_longitude()}
                 elemway_info["ElemWay_Steps"] = elemWay.steps
                 elemway_info["Type"] = elemWay.type
                 elemways_list.append(elemway_info)
@@ -78,5 +80,8 @@ class ApiRoute:
             ways_list.append(way_dict)
         json["Start_Address"] = ways["start_address"]
         json["End_Address"] = ways["end_address"]
+        json["Start_Address_Coords"] = ways["start_address_coords"]
+        json["End_Address_Coords"] = ways["end_address_coords"]
         json["Routes"] = ways_list
+        print(json)
         return json
