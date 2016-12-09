@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 import re
 import constants
@@ -105,7 +107,7 @@ class RouteManager:
                     step_arrival_location_latitude = item['transit_details']['arrival_stop']['location']['lat']
                     step_arrival_location_longitude = item['transit_details']['arrival_stop']['location']['lng']
                     step_instruction = "Take Line {}, direction {} to {} from {} at {} ({} stations)".format(step_line,
-                       step_direction, step_arrival_station, step_departure_station, step_departure_time, step_num_stations)
+                       step_direction.encode('utf-8'), step_arrival_station, step_departure_station, step_departure_time, step_num_stations)
 
                 if step_mode == "WALKING":
                     step_departure_location_latitude = item['start_location']['lat']

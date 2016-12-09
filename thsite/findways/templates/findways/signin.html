@@ -21,8 +21,10 @@
     </div>
     <div class="row">
         {% if user.is_authenticated %}
-            <p> Vous êtes connecté, {{ user.username }} ! </p>
-            <a href="http://localhost:8000/findways/mytravel/"><input type="button" value="Mon Trajet" /></a>
+            <span class="col-xs-12 margin-top-60 center blue">Vous êtes connecté(e), {{ user.username }} !</span>
+            <a href="http://localhost:8000/findways/mytravel/">
+                <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Mon Trajet" />
+            </a>
         {% else %}
             <form method="post" action="." class="margin-top-60">
                 {% csrf_token %}
