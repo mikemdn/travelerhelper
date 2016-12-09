@@ -14,19 +14,22 @@ from .models import Profile
 def process_instructions(array):
     """Store all the indications to display to the user"""
     elements_to_display = [{'mean_of_transport': 'Waking', 'cost': 3, 'distance': 1500, 'time': 18, 'instructions': ["1", "2", "3"]}, {'mean_of_transport': 'Waking', 'cost': 3, 'distance': 1500, 'time': 18, 'instructions': ["1", "2", "3"]}]
-    """for way in array.items():
-        way_infos = {}
-        way_infos['mean_of_transport'] = way[0]
-        way_infos['time'] = str(way[1][0])
-        way_infos['distance'] = str(way[1][1])
-        way_infos['cost'] = str(way[1][2])
-        instructions = []
-        for elemWay in way[1][-1]:
-            for elem_step in elemWay[1][-1]:
-                instructions.append(elem_step['instruction'])
-        way_infos['instructions'] = instructions
-        elements_to_display.append(way_infos)"""
     return elements_to_display
+"""
+for way in array.items():
+    way_infos = {}
+    way_infos['mean_of_transport'] = way[0]
+    way_infos['time'] = str(way[1][0])
+    way_infos['distance'] = str(way[1][1])
+    way_infos['cost'] = str(way[1][2])
+    instructions = []
+    for elemWay in way[1][-1]:
+        for elem_step in elemWay[1][-1]:
+            instructions.append(elem_step['instruction'])
+    way_infos['instructions'] = instructions
+    elements_to_display.append(way_infos)
+"""
+
 
 
 def index(request):
