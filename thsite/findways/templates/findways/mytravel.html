@@ -52,8 +52,139 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="col-xs-6 margin-top-30">
-                Map à insérer ici
+            <div class="col-xs-6 margin-top-30" id = "map_canvas" >
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaPwW26gWCHItZFD7-2rdWtdWimVhc6TU"></script>
+
+                <script>
+                    function initialize(json) {
+
+
+                        var styles = {
+                            'monTheme': [
+                                {
+                                    featureType: 'road',
+                                    elementType: 'geometry',
+                                    stylers: [{'visibility': 'simplified'}]
+                                }, {
+                                    featureType: 'road.arterial',
+                                    stylers: [
+                                        {hue: 149},
+                                        {saturation: -78},
+                                        {lightness: 0}
+                                    ]
+                                }, {
+                                    featureType: 'road.highway',
+                                    stylers: [
+                                        {hue: -31},
+                                        {saturation: -40},
+                                        {lightness: 2.8}
+                                    ]
+                                }, {
+                                    featureType: 'poi',
+                                    elementType: 'label',
+                                    stylers: [{'visibility': 'off'}]
+                                }, {
+                                    featureType: 'landscape',
+                                    stylers: [
+                                        {hue: 163},
+                                        {saturation: -26},
+                                        {lightness: -1.1}
+                                    ]
+                                }, {
+                                    featureType: 'transit',
+                                    stylers: [{'visibility': 'off'}]
+                                }, {
+                                    featureType: 'water',
+                                    stylers: [
+                                        {hue: 3},
+                                        {saturation: -24.24},
+                                        {lightness: -38.57}
+                                    ]
+                                }
+                            ]
+                        };
+                        var mapOptions = {
+                            zoom: 12,
+                            center: new google.maps.LatLng(48.861322, 2.340535),
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+
+                        var arrival_latitude = json['End_Address_Coords']['lat'];
+                        var arrival_longitude = json['End_Address_Coords']['lng'];
+                        var departure_latitude = json['Start_Address_Coords']['lat'];
+                        var departure_longitude = json['Start_Address_Coords']['lng'];
+
+                        console.log(departure_longitude);
+
+                        var departure = new google.maps.LatLng(departure_latitude,departure_longitude);
+                        var arrival = new google.maps.LatLng(arrival_latitude,arrival_longitude);
+
+                        var directionsService = new google.maps.DirectionsService();
+                        var directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map });
+                        var request = {
+                            origin : departure,
+                            destination: arrival,
+                            travelMode : google.maps.DirectionsTravelMode.WALKING,
+                            unitSystem: google.maps.DirectionsUnitSystem.METRIC
+                        };
+
+                        directionsService.route(request, function(response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay.setDirections(response);
+                                directionsDisplay.suppressMarkers = true;
+                                directionsDisplay.setOptions({polylineOptions:{strokeColor: '#FFD800'}, preserveViewport: true, 'suppressMarkers': true});
+                            }
+                        });
+
+                        var directionsService2 = new google.maps.DirectionsService();
+                        var directionsDisplay2 = new google.maps.DirectionsRenderer({ 'map': map });
+                        var request = {
+                            origin : departure,
+                            destination: arrival,
+                            travelMode : google.maps.DirectionsTravelMode.DRIVING,
+                            unitSystem: google.maps.DirectionsUnitSystem.METRIC
+                        };
+
+                        directionsService2.route(request, function(response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay2.setDirections(response);
+                                directionsDisplay2.suppressMarkers = true;
+                                directionsDisplay2.setOptions({polylineOptions:{strokeColor: '#FF0000'}, preserveViewport: true, 'suppressMarkers': true});
+                            }
+                        });
+
+
+
+                        var directionsService4 = new google.maps.DirectionsService();
+                        var directionsDisplay4 = new google.maps.DirectionsRenderer({ 'map': map });
+                        var request = {
+                            origin : departure,
+                            destination: arrival,
+                            travelMode : google.maps.DirectionsTravelMode.TRANSIT,
+                            unitSystem: google.maps.DirectionsUnitSystem.METRIC
+                        };
+
+                        directionsService4.route(request, function(response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay4.setDirections(response);
+                                directionsDisplay4.setOptions({polylineOptions:{strokeColor: '#B854D8'}, preserveViewport: true, 'suppressMarkers': true});
+                            }
+                        });
+
+
+
+
+
+
+                    }
+
+                    initialize(JSON.parse("{{json2}}"));
+
+
+                </script>
+
             </div>
         </div>
     {% else %}
