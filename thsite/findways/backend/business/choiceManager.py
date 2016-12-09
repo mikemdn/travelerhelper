@@ -101,7 +101,7 @@ class ChoiceManager:
     def get_touristic_way(self, requests):
         """Return a Way object for main_criteria #4 on load"""
         ways = WayManager(requests, self.available_transports).get_ways()
-        ways['places_to_visit'] = self.get_places_to_visit(requests)
+        ways['places_to_visit'] = self.set_places_to_visit_to_json(self.get_places_to_visit(requests))
         return ways
 
     def get_places_to_visit(self, requests):
@@ -142,3 +142,13 @@ class ChoiceManager:
         b = -1
         c = arrival.get_longitude()
         return (a * place.long + b * place.lat + float(c)) / math.sqrt(pow(a, 2) + pow(b, 2))
+
+    def set_places_to_visit_to_json(self, places_to_visit):
+        liste_to_send = []
+        for place in places_to_visit:
+            json = {}
+            json['name'] = place.name.encode('utf-8')
+            json['lat'] = place.lat
+            json['long'] = place.long
+            liste_to_send.append(json)
+        return liste_to_send
