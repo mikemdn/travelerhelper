@@ -14,11 +14,8 @@ Steps to follow to install and setup the project
     * launch the virtualenv : $ source environment_name/bin/activate
     * install django : $ pip install django
     * install requests : $ pip install requests
-    * install xlrd : $ pip install xlrd
 - Set up the data base :
     * $ python manage.py migrate
-    * $ python manage.py makemigrations
-    * $ python findways/insert_data.py
 - Launch the server :
     * $ python manage.py runserver
 - Open the browser (**Chrome**) and call this url : http://localhost:8000/findways
