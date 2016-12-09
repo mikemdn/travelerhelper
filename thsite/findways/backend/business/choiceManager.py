@@ -80,6 +80,7 @@ class ChoiceManager:
         ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.duration)
         way_manager["routes"] = sorted_ways
+        way_manager["places_to_visit"] = []
         return way_manager
 
     def get_cheapest_way(self, requests):
@@ -88,6 +89,7 @@ class ChoiceManager:
         ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.price)
         way_manager["routes"] = sorted_ways
+        way_manager["places_to_visit"] = []
         return way_manager
 
     def get_lightest_way(self, requests):
@@ -96,6 +98,7 @@ class ChoiceManager:
         ways = way_manager["routes"]
         sorted_ways = sorted(ways, key=lambda way: way.duration)
         way_manager["routes"] = sorted_ways
+        way_manager["places_to_visit"] = []
         return way_manager
 
     def get_touristic_way(self, requests):

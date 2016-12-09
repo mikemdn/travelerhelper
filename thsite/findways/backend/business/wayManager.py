@@ -6,6 +6,8 @@ from .elemFunctions import *
 class WayManager:
 
     def __init__(self, request, available_transport_types):
+        # Ajouter en paramètre de la fonction ses coordonnées gps
+        self.request = request
         self.departure_position = position.Position(float(request['departure']['lat']), float(request['departure']['lng']), "")
         self.arrival_position = position.Position(0, 0, request["destination"])
         self.ways = self.get_relevant_ways(available_transport_types)
@@ -64,6 +66,10 @@ class WayManager:
         cway = cway + get_walking_elem(self.departure_position, departure_station_position)
         cway = cway + get_cycling_elem(departure_station_position, arrival_station_position)
         cway = cway + get_walking_elem(arrival_station_position, self.arrival_position)
+        if self.request['velib']:
+            cway.price = 0
+        else:
+            cway.price = 1.70
         return cway
 
     def get_autolib_way(self):
@@ -75,6 +81,9 @@ class WayManager:
         dway = dway + get_walking_elem(self.departure_position, departure_station_position)
         dway = dway + get_driving_elem(departure_station_position, arrival_station_position)
         dway = dway + get_walking_elem(arrival_station_position, self.arrival_position)
+        duration = dway.duration
+        half_hour = (float(duration) // 30 + 1)
+        dway.price = half_hour * 9
         return dway
 
     def get_driving_way(self):
