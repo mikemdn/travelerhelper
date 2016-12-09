@@ -53,7 +53,27 @@
                 {% endfor %}
             </div>
             <div class="col-xs-6 margin-top-30">
-                Map à insérer ici
+                <div class="row">
+                    <div class="col-xs-12">
+                        Map à insérer ici
+                    </div>
+                    {% if is_place %}
+                    <div class="col-xs-12 margin-top-30">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Places to visit
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    {% for place in json2.Places_to_visit %}
+                                        <li>{{place.name}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% else %}

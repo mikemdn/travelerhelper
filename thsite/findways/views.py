@@ -63,6 +63,7 @@ def mytravel(request):
             json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
                     'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
             json2 = api.ApiRoute(json1).data_structure()
+            is_place = json1['criteria'] == 4
     else:
         form = TravelForm()
 
