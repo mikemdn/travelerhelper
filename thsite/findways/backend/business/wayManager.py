@@ -13,7 +13,7 @@ class WayManager:
         self.ways = self.get_relevant_ways(available_transport_types)
 
     def get_relevant_ways(self, available_transport_types):
-        #way is a list of Ways().
+        # way is a list of Ways().
         way_manager = {}
         ways = []
         for transport_type in available_transport_types:

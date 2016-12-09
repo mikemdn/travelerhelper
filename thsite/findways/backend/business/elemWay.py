@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class ElemWay:
     def __init__(self, departure, arrival, type='w', duration=0, distance=0, price=0, steps=[]):
         # TODO : faire bien attention à comment les données sont récupérées

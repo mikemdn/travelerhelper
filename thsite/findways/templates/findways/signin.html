@@ -5,25 +5,25 @@
     <div class="row">
         <div class="col-xs-4 margin-top-10">
             <a href="http://localhost:8000/findways/">
-                <input type="button" class="btn btn-default button-main" value="Précédent" />
+                <input type="button" class="btn btn-default button-main" value="Previous" />
             </a>
         </div>
         <div class="col-xs-offset-4 col-xs-4 margin-top-10">
             <a href="http://localhost:8000/findways/logout">
-                <input type="button" class="btn btn-default button-main pull-right" value="Se déconnecter" />
+                <input type="button" class="btn btn-default button-main pull-right" value="Log out" />
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 margin-top-10">
-            <h1 class="title">Se connecter</h1>
+            <h1 class="title">Log in</h1>
         </div>
     </div>
     <div class="row">
         {% if user.is_authenticated %}
-            <span class="col-xs-12 margin-top-60 center blue">Vous êtes connecté(e), {{ user.username }} !</span>
+            <span class="col-xs-12 margin-top-60 center blue">You are logged in, {{ user.username }} !</span>
             <a href="http://localhost:8000/findways/mytravel/">
-                <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Mon Trajet" />
+                <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="My way" />
             </a>
         {% else %}
             <form method="post" action="." class="margin-top-60">
@@ -31,13 +31,13 @@
                 <div class="col-xs-offset-4">
                     {{ form.as_p }}
                 </div>
-                <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Se connecter" />
+                <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Log in" />
             </form>
         {% endif %}
     </div>
     <div class="row">
         {% if error %}
-            <p class="warning-text"><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+            <p class="warning-text"><strong>Unknown user or invalid password.</strong></p>
         {% endif %}
     </div>
 </div>

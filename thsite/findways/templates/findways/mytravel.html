@@ -7,18 +7,18 @@
         {% if show_result %}
         <div class="col-xs-4 margin-top-10">
             <a href="http://localhost:8000/findways/mytravel">
-                <input type="button" class="btn btn-default button-main" value="Recommencer" />
+                <input type="button" class="btn btn-default button-main" value="Do it again !" />
             </a>
         </div>
         <div class="col-xs-offset-4 col-xs-4 margin-top-10">
             <a href="http://localhost:8000/findways/logout">
-                <input type="button" class="btn btn-default button-main pull-right" value="Se déconnecter" />
+                <input type="button" class="btn btn-default button-main pull-right" value="Log out" />
             </a>
         </div>
         {% else %}
         <div class="col-xs-offset-8 col-xs-4 margin-top-10">
             <a href="http://localhost:8000/findways/logout">
-                <input type="button" class="btn btn-default button-main pull-right" value="Se déconnecter" />
+                <input type="button" class="btn btn-default button-main pull-right" value="Log out" />
             </a>
         </div>
         {% endif %}
@@ -26,7 +26,7 @@
     {% if show_result %}
     <div class="row">
         <div class="col-xs-12 margin-top-10">
-            <h1 class="title">Itinéraire</h1>
+            <h1 class="title">Directions</h1>
             <h2>From : Your current location </br>&emsp;&nbsp;To : {{json2.End_Address}}</h2>
         </div>
     </div>
@@ -63,13 +63,16 @@
                     </script>
                 </div>
             </div>
+            <div class="col-xs-6 margin-top-30">
+                Map à insérer ici
+            </div>
         </div>
         {% endfor %}
 
     {% else %}
     <div class="row">
         <div class="col-xs-12 margin-top-10">
-            <h1 class="title">Trouver mon trajet</h1>
+            <h1 class="title">Find my way</h1>
         </div>
     </div>
     <div class="row">
@@ -79,33 +82,33 @@
                 <div class="col-xs-offset-1">
                     {{ form.as_p }}
                 </div>
-                <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Trouver le meilleur trajet !" />
+                <input type="submit" class="btn btn-default button-main btn-lg col-xs-offset-3 col-xs-6 margin-top-60" value="Find the best itinerary !" />
             </form>
         </div>
         <div class="col-xs-4">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Mon profil
+                    My profile
                 </div>
                 <div class="panel-body">
                     <ul class="margin-top-30">
                         <li>
-                            <div class="col-xs-8">Permis de conduire</div>
+                            <div class="col-xs-8">Driving licence</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.licence %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
                         <li>
-                            <div class="col-xs-8">Carte de crédit</div>
+                            <div class="col-xs-8">Credit card</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.card %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
@@ -113,9 +116,9 @@
                             <div class="col-xs-8">Pass Navigo</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.navigo %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
@@ -123,35 +126,35 @@
                             <div class="col-xs-8">Pass Vélib</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.velibPass %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
                         <li>
-                            <div class="col-xs-8">Voiture</div>
+                            <div class="col-xs-8">Car</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.car %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
                         <li>
-                            <div class="col-xs-8">Pass Vélo</div>
+                            <div class="col-xs-8">Bike</div>
                             <div class="col-xs-4 blue">
                                 {% if user.profile.bike %}
-                                    <span class="blue">Oui</span>
+                                    <span class="blue">Yes</span>
                                 {% else %}
-                                    <span class="blue">Non</span>
+                                    <span class="blue">No</span>
                                 {% endif %}
                             </div>
                         </li>
                     </ul>
                     <a href="{% url 'findways:edit_profile' %}">
-                        <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-2 col-xs-8 margin-top-60" value="Changer mon profil" />
+                        <input type="button" class="btn btn-default button-main btn-lg col-xs-offset-2 col-xs-8 margin-top-60" value="Change my profile" />
                     </a>
                 </div>
             </div>
