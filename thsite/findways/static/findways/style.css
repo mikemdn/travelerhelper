@@ -48,7 +48,7 @@ input#id_criteria_0, input#id_criteria_1, input#id_criteria_2, input#id_criteria
 }
 ul#id_criteria label {
     color: rgba(0,0,0,0.5);
-    width: 40%;
+    width: 50%;
 }
 label {
     width: 20%;

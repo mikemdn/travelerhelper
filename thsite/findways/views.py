@@ -13,7 +13,7 @@ from .models import Profile
 
 def process_instructions(array):
     """Store all the indications to display to the user"""
-    elements_to_display = [] #[{'mean_of_transport': 'Waking', 'cost': 3, 'distance': 1500, 'time': 18, 'instructions': ["1", "2", "3"]}, {'mean_of_transport': 'Waking', 'cost': 3, 'distance': 1500, 'time': 18, 'instructions': ["1", "2", "3"]}]
+    elements_to_display = []
     return elements_to_display
 """
 for way in array.items():
@@ -29,7 +29,6 @@ for way in array.items():
     way_infos['instructions'] = instructions
     elements_to_display.append(way_infos)
 """
-
 
 
 def index(request):
@@ -66,7 +65,6 @@ def signin(request):
                 login(request, user)  # nous connectons l'utilisateur
             else: # sinon une erreur sera affichée
                 error = True
-
     else:
         form = ConnexionForm()
 
@@ -84,7 +82,6 @@ def mytravel(request):
             data = form.cleaned_data
             json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
                     'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
-            #request.session['json'] = json1
             json2 = api.ApiRoute(json1).data_structure()
             results = process_instructions(json2)
     else:
@@ -113,14 +110,14 @@ def edit_profile(request):
 # FORMS
 
 class ConnexionForm(forms.Form):
-    username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
-    password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
+    username = forms.CharField(label="Username ", max_length=30)
+    password = forms.CharField(label="Password ", widget=forms.PasswordInput)
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField(label="Nom d'utilisateur ", max_length=30)
-    mail = forms.CharField(label="E-mail address ", max_length=50)
-    password = forms.CharField(label="Mot de passe ", widget=forms.PasswordInput)
+    username = forms.CharField(label="Username ", max_length=30)
+    mail = forms.CharField(label="E-mail ", max_length=50)
+    password = forms.CharField(label="Password ", widget=forms.PasswordInput)
 
 
 class ProfileForm(forms.ModelForm):
@@ -132,6 +129,6 @@ class ProfileForm(forms.ModelForm):
 
 class TravelForm(forms.Form):
     destination = forms.CharField(label = "Destination", max_length = 100)
-    CHOICES = [(1, 'Le plus rapide'),(2,'Le moins cher'),(3, 'Le plus pratique si je suis chargé'),(4, 'Celui qui me fait le plus visiter')]
+    CHOICES = [(1, 'The faster'), (2, 'The cheaper'), (3, 'The most convenient if I carry heavy loads'), (4, 'Visit the city !')]
 
     criteria = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
