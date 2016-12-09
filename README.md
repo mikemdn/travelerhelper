@@ -9,7 +9,7 @@ Steps to follow to install and setup the project
 - Clone this repository (ex : git clone git@github.com:mikamedioni/travelerhelper.git)
 - Go to the thsite folder
 - Set up the virtual environment :
-    * install virtualenv : sudo apt-get install virtualenv
+    * install virtualenv (ex : sudo apt-get install virtualenv)
     * create a virtualenv : $ virtualenv environment_name
     * launch the virtualenv : $ source environment_name/bin/activate
     * install django : $ pip install django
