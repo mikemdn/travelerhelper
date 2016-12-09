@@ -51,7 +51,6 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
     """Elementary transit ways"""
     transit_way = Way()
     route_manager = RouteManager(elem_departure_position, elem_arrival_position, 't')
-    route_manager.steps = route_manager.get_steps()
 
     for step in route_manager.steps:
         e = ElemWay(Position(step['departure_location_lat'], step['departure_location_lng'], ""),
@@ -59,15 +58,13 @@ def get_transit_elem(elem_departure_position, elem_arrival_position):
 
         e.distance = convert_distance_into_meters(step['distance'])
         e.duration = convert_duration_into_minutes(step['duration'])
+        e.steps = [{'instruction': step['instruction']}]
 
         if step['type'] == 'WALKING':
             e.type = 'w'
-            e.steps = [{'instruction': step['instruction']}]
 
         if step['type'] == 'TRANSIT':
             e.type = 't'
-            e.steps = [{'instruction': "Take Line {}, direction {} to {} from {} at {}".format(step['line'].encode('utf-8'),
-                        step['direction'].encode('utf-8'), step['arrival_station'].encode('utf-8'), step['departure_station'].encode('utf-8'), step['departure_time'].encode('utf-8'))}]
         transit_way = transit_way + e
 
     transit_way.price = 2.25
