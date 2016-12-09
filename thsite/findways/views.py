@@ -109,6 +109,6 @@ class ProfileForm(forms.ModelForm):
 
 class TravelForm(forms.Form):
     destination = forms.CharField(label = "Destination", max_length = 100)
-    CHOICES = [(1, 'The faster'), (2, 'The cheaper'), (3, 'The most convenient if I carry heavy loads'), (4, 'Visit the city !')]
+    CHOICES = [(1, 'The fastest'), (2, 'The cheapest'), (3, 'The most convenient if I carry heavy loads'), (4, 'Visit the city !')]
 
     criteria = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
