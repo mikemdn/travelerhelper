@@ -32,6 +32,7 @@ class ApiRoute:
     def data_structure(self):
         """Returns a dictionnary with all the ways and their Elem ways, with information about distance, duration and steps"""
         json = {}
+        i = 1
         ways_list = []
         ways = self.get_route_api_front()
         for way in ways["routes"]:
@@ -41,12 +42,12 @@ class ApiRoute:
                 if len(way.type) == 1:
                     way_type = "Driving"
                 else:
-                    way_type = "Autolib"
+                    way_type = "Autolib (9€/30min)"
             elif "c" in way.type:
                 if len(way.type) == 1:
                     way_type = "Bicycling"
                 else:
-                    way_type = "Velib"
+                    way_type = "Velib (1,70€/day)"
             elif "u" in way.type:
                 way_type = way.display_name
             else:
@@ -75,7 +76,9 @@ class ApiRoute:
             way_dict["Price"] = way.price
             way_dict["Route_Details"] = elemways_list
             way_dict["Type"] = way_type
+            way_dict["id"] = i
             ways_list.append(way_dict)
+            i += 1
         json["Start_Address"] = ways["start_address"]
         json["End_Address"] = ways["end_address"]
         json["Routes"] = ways_list

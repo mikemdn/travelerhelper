@@ -83,7 +83,8 @@ def mytravel(request):
             show_result = True
             data = form.cleaned_data
             json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
-                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
+                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'velib': request.user.profile.velibPass,
+                    'bike':request.user.profile.bike, 'criteria': int(data['criteria'])}
             #request.session['json'] = json1
             json2 = api.ApiRoute(json1).data_structure()
             results = process_instructions(json2)
