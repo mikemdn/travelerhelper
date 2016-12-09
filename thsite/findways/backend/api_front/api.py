@@ -80,4 +80,8 @@ class ApiRoute:
         json["Start_Address"] = ways["start_address"]
         json["End_Address"] = ways["end_address"]
         json["Routes"] = ways_list
+        try:
+            json["Places_to_visit"] = ways["places_to_visit"]
+        except KeyError:
+            print("Vous n'êtes pas dans le mode visite")
         return json

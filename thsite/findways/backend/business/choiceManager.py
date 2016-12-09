@@ -100,11 +100,12 @@ class ChoiceManager:
 
     def get_touristic_way(self, requests):
         """Return a Way object for main_criteria #4 on load"""
-        places_to_visit = self.get_places_to_visit(requests)
         ways = WayManager(requests, self.available_transports).get_ways()
+        ways['places_to_visit'] = self.get_places_to_visit(requests)
         return ways
 
     def get_places_to_visit(self, requests):
+        """Find in the database all the places that are in the rectangle defined by the departure and arrival positions"""
         arrival = position.Position(0, 0, requests["destination"])
         min_lat = min(requests["departure"]["lat"], arrival.get_latitude())
         max_lat = max(requests["departure"]["lat"], arrival.get_latitude())
@@ -118,8 +119,8 @@ class ChoiceManager:
             return self.get_closest_places_to_visit(places_to_visit, arrival, requests)
         return places_to_visit
 
-    # definir le filtrage des places
     def get_closest_places_to_visit(self, places_to_visit, arrival, requests):
+        """Method to get the three places that are the closest to the line linking departure and arrival"""
         places_to_visit_filtered = {}
         steps_list = []
         for place in places_to_visit:
@@ -134,6 +135,7 @@ class ChoiceManager:
         return steps_list
 
     def get_distance_to_direct_line(self, arrival, requests, place):
+        """Method to calculate the distance between a place and the line linking departure and arrival"""
         delta_lat = arrival.get_latitude() - requests["departure"]["lat"]
         delta_long = arrival.get_longitude() - requests["departure"]["lng"]
         a = float(delta_lat / delta_long)

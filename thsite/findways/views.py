@@ -11,26 +11,6 @@ from findways.backend.api_front import api
 from .models import Profile
 
 
-def process_instructions(array):
-    """Store all the indications to display to the user"""
-    elements_to_display = []
-    return elements_to_display
-"""
-for way in array.items():
-    way_infos = {}
-    way_infos['mean_of_transport'] = way[0]
-    way_infos['time'] = str(way[1][0])
-    way_infos['distance'] = str(way[1][1])
-    way_infos['cost'] = str(way[1][2])
-    instructions = []
-    for elemWay in way[1][-1]:
-        for elem_step in elemWay[1][-1]:
-            instructions.append(elem_step['instruction'])
-    way_infos['instructions'] = instructions
-    elements_to_display.append(way_infos)
-"""
-
-
 def index(request):
     return render(request,'findways/index.html')
 
@@ -83,7 +63,6 @@ def mytravel(request):
             json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
                     'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'criteria': int(data['criteria'])}
             json2 = api.ApiRoute(json1).data_structure()
-            results = process_instructions(json2)
     else:
         form = TravelForm()
 
