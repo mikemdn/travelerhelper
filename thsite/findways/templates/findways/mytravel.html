@@ -71,28 +71,7 @@
         <div class="col-xs-6 margin-top-30">
                 <div class="row">
                     <div class="col-xs-12">
-                        Map à insérer ici
-                    </div>
-                    {% if is_place %}
-                    <div class="col-xs-12 margin-top-30">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                Places to visit
-                            </div>
-                            <div class="panel-body">
-                                <ul>
-                                    {% for place in json2.Places_to_visit %}
-                                        <li>{{place.name}}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>
-            <div class="col-xs-6 margin-top-30" id = "map_canvas" >
+                        <div class="col-xs-6 margin-top-30" id = "map_canvas" >
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaPwW26gWCHItZFD7-2rdWtdWimVhc6TU"></script>
 
                 <script>
@@ -226,8 +205,26 @@
                 </script>
 
             </div>
+                    </div>
+                    {% if is_place %}
+                    <div class="col-xs-12 margin-top-30">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Places to visit
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    {% for place in json2.Places_to_visit %}
+                                        <li>{{place.name}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
 
-        </div>
     </div>
     {% else %}
     <div class="row">
@@ -322,4 +319,3 @@
     </div>
     {% endif %}
     </div>
-</div>
