@@ -75,7 +75,7 @@
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaPwW26gWCHItZFD7-2rdWtdWimVhc6TU"></script>
 
                 <script>
-                    function initialize(json) {
+                    function initialize(d_lat,d_lng,a_lat,a_lng) {
 
 
                         var styles = {
@@ -130,10 +130,10 @@
                         var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
 
-                        var arrival_latitude = json['End_Address_Coords']['lat'];
-                        var arrival_longitude = json['End_Address_Coords']['lng'];
-                        var departure_latitude = json['Start_Address_Coords']['lat'];
-                        var departure_longitude = json['Start_Address_Coords']['lng'];
+                        var arrival_latitude = parseFloat(a_lat);
+                        var arrival_longitude = parseFloat(a_lng);
+                        var departure_latitude = parseFloat(d_lat);
+                        var departure_longitude = parseFloat(d_lng);
 
                         console.log(departure_longitude);
 
@@ -199,7 +199,8 @@
 
                     }
 
-                    initialize(JSON.parse("{{json2}}"));
+                    initialize("{{json2.Start_Address_Coords.lat}}","{{json2.Start_Address_Coords.lng}}","{{json2.End_Address_Coords.lat}}","{{json2.End_Address_Coords.lng}}");
+                    console.log("{{json2.Start_Address_Coords.lat}}");
 
 
                 </script>
