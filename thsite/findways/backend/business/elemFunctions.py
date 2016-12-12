@@ -18,6 +18,7 @@ def get_walking_elem(elem_departure_position, elem_arrival_position):
     """Elementary walking ways"""
     elemway = ElemWay(elem_departure_position, elem_arrival_position, 'w')
     route_manager = RouteManager(elemway.departure, elemway.arrival, elemway.type)
+    print(route_manager.url)
     elemway.steps = route_manager.steps
     elemway.duration = route_manager.duration
     elemway.distance = route_manager.distance

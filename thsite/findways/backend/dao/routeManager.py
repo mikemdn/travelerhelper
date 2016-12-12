@@ -21,9 +21,9 @@ def convert_duration_into_minutes(text):
         groups = re.finditer(reg, text, re.MULTILINE)
         min = 0
         for matchNum, group in enumerate(groups):
-            if group.groups()[2] == 'd':
+            if group.groups()[2] == 'd' or group.groups()[2] == 'day' or group.groups()[2] == 'days':
                 min += int(group.groups()[1]) * 60 * 24
-            elif group.groups()[2] == 'hours' or group.groups()[2] == 'h':
+            elif group.groups()[2] == 'hours' or group.groups()[2] == 'hour' or group.groups()[2] == 'h':
                 min += int(group.groups()[1]) * 60
             elif group.groups()[2] == 'mins' or group.groups()[2] == 'min':
                 min += int(group.groups()[1])
