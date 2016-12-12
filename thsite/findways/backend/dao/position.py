@@ -1,12 +1,16 @@
 import requests
 import constants
 
+def correct(address):
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + "\"{}\"".format(address) + "&key=" + constants.google_maps_api_key
+    result = requests.get(url).json()
+    return result["results"][0]["formatted_address"]
 
 class Position:
 
     def __init__(self, latitude, longitude, address):
         if latitude == 0 and longitude == 0:
-            self.address = address
+            self.address = correct(address)
             self.latitude = Position.get_coordinates_from_address(self)[0]
             self.longitude = Position.get_coordinates_from_address(self)[1]
         elif address == "":
