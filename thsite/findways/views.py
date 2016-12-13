@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotFound
 
 from findways.backend.api_front import api
 from .models import Profile
@@ -54,17 +55,21 @@ def signin(request):
 @login_required(login_url='http://localhost:8000/findways/signin')
 def mytravel(request):
     show_result = False
-
-    if request.method == "POST":
-        form = TravelForm(request.POST)
-        if form.is_valid():
-            show_result = True
-            data = form.cleaned_data
-            json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
-                    'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'velib': request.user.profile.velibPass,
-                    'bike':request.user.profile.bike, 'criteria': int(data['criteria'])}
-            json2 = api.ApiRoute(json1).data_structure()
-            is_place = json1['criteria'] == 4
+    try:
+        if request.method == "POST":
+            form = TravelForm(request.POST)
+            if form.is_valid():
+                show_result = True
+                data = form.cleaned_data
+                json1 = {'destination': data['destination'], 'car': request.user.profile.car, 'driving licence': request.user.profile.licence,
+                        'navigo': request.user.profile.navigo, 'credit card': request.user.profile.card, 'velib': request.user.profile.velibPass,
+                        'bike':request.user.profile.bike, 'criteria': int(data['criteria'])}
+                json2 = api.ApiRoute(json1).data_structure()
+                is_place = json1['criteria'] == 4
+    except IndexError:
+        return HttpResponse("Your address is not valid. Try again on the previous page.")
+    except ValueError:
+        return HttpResponse("Your address is not valid. Try again on the previous page.")
     else:
         form = TravelForm()
 
